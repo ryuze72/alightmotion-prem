@@ -1,0 +1,3484 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+
+<meta name="theme-color" content="#030303">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+<title>Ryuze System • AM Premium + TempMail</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap');
+
+:root{
+  --bg:#030303;
+  --white:#fff;
+  --silver:#d8d8d8;
+  --muted:#858585;
+  --line:rgba(255,255,255,.12);
+  --glass:rgba(14,14,14,.72);
+  --green:#75ffb0;
+  --red:#ff6666;
+  --blue:#79aaff;
+}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
+}
+
+html,body{
+  width:100%;
+  min-height:100%;
+  overflow-x:hidden;
+  touch-action:pan-y;
+  -webkit-text-size-adjust:100%;
+}
+
+body{
+  background:#030303;
+  color:#fff;
+  font-family:Inter,sans-serif;
+}
+
+/* =========================================================
+   BACKGROUND
+========================================================= */
+
+.bg{
+  position:fixed;
+  inset:0;
+  overflow:hidden;
+  pointer-events:none;
+  z-index:-10;
+
+  background:
+    radial-gradient(
+      circle at 50% -15%,
+      rgba(255,255,255,.11),
+      transparent 38%
+    ),
+    #030303;
+}
+
+.ambient{
+  position:absolute;
+  width:360px;
+  height:360px;
+  border-radius:50%;
+  opacity:.35;
+  filter:blur(55px);
+  will-change:transform;
+}
+
+.ambient.a{
+  top:-180px;
+  left:-140px;
+  background:rgba(255,255,255,.12);
+  animation:ambientMove 12s ease-in-out infinite alternate;
+}
+
+.ambient.b{
+  right:-160px;
+  bottom:-180px;
+  background:rgba(180,180,180,.08);
+  animation:ambientMove2 15s ease-in-out infinite alternate;
+}
+
+@keyframes ambientMove{
+  to{transform:translate3d(100px,70px,0)}
+}
+
+@keyframes ambientMove2{
+  to{transform:translate3d(-90px,-60px,0)}
+}
+
+.grid{
+  position:absolute;
+  inset:0;
+  opacity:.045;
+
+  background-image:
+    linear-gradient(
+      rgba(255,255,255,.5) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(255,255,255,.5) 1px,
+      transparent 1px
+    );
+
+  background-size:58px 58px;
+
+  mask-image:linear-gradient(
+    to bottom,
+    black,
+    transparent 75%
+  );
+}
+
+.scanline{
+  position:absolute;
+  inset:0;
+  opacity:.17;
+
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      transparent 0,
+      transparent 5px,
+      rgba(255,255,255,.025) 6px
+    );
+}
+
+.light-beam{
+  position:absolute;
+  width:2px;
+  height:100%;
+  left:-10%;
+  opacity:.12;
+
+  background:linear-gradient(
+    transparent,
+    #fff,
+    transparent
+  );
+
+  transform:skewX(-12deg);
+
+  animation:beam 9s linear infinite;
+}
+
+@keyframes beam{
+  from{
+    transform:translate3d(-30vw,0,0) skewX(-12deg);
+  }
+
+  to{
+    transform:translate3d(130vw,0,0) skewX(-12deg);
+  }
+}
+
+/* =========================================================
+   PARTICLES
+========================================================= */
+
+.particles{
+  position:absolute;
+  inset:0;
+}
+
+.particle{
+  position:absolute;
+  width:2px;
+  height:2px;
+  border-radius:50%;
+  background:#fff;
+  opacity:.28;
+
+  box-shadow:
+    0 0 5px rgba(255,255,255,.5);
+
+  animation:particleUp linear infinite;
+}
+
+@keyframes particleUp{
+  from{
+    transform:translate3d(0,110vh,0);
+    opacity:0;
+  }
+
+  12%{
+    opacity:.3;
+  }
+
+  85%{
+    opacity:.22;
+  }
+
+  to{
+    transform:translate3d(0,-15vh,0);
+    opacity:0;
+  }
+}
+
+/* =========================================================
+   METEORS
+========================================================= */
+
+.meteor{
+  position:absolute;
+  width:90px;
+  height:1px;
+
+  background:linear-gradient(
+    90deg,
+    transparent,
+    rgba(255,255,255,.65),
+    transparent
+  );
+
+  opacity:0;
+  transform:rotate(-35deg);
+
+  animation:meteor 7s linear infinite;
+}
+
+.meteor:after{
+  content:"";
+  position:absolute;
+  right:0;
+  top:-1px;
+
+  width:3px;
+  height:3px;
+
+  border-radius:50%;
+  background:#fff;
+
+  box-shadow:0 0 8px #fff;
+}
+
+.meteor.m1{
+  top:18%;
+  left:-15%;
+}
+
+.meteor.m2{
+  top:42%;
+  left:-20%;
+  animation-delay:3s;
+}
+
+.meteor.m3{
+  top:65%;
+  left:-20%;
+  animation-delay:5.5s;
+}
+
+@keyframes meteor{
+  0%{
+    transform:translate3d(0,0,0) rotate(-35deg);
+    opacity:0;
+  }
+
+  8%{
+    opacity:.5;
+  }
+
+  25%{
+    transform:translate3d(130vw,45vh,0) rotate(-35deg);
+    opacity:0;
+  }
+
+  100%{
+    opacity:0;
+  }
+}
+
+/* =========================================================
+   APP
+========================================================= */
+
+.app{
+  width:min(100%,620px);
+  margin:auto;
+
+  padding:
+    calc(22px + env(safe-area-inset-top))
+    14px
+    calc(35px + env(safe-area-inset-bottom));
+}
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.hero{
+  position:relative;
+  overflow:hidden;
+
+  padding:27px 21px 25px;
+
+  border:1px solid rgba(255,255,255,.13);
+  border-radius:25px;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255,255,255,.07),
+      rgba(255,255,255,.015) 45%,
+      rgba(0,0,0,.35)
+    ),
+    var(--glass);
+
+  box-shadow:
+    0 20px 55px rgba(0,0,0,.5),
+    inset 0 1px rgba(255,255,255,.08);
+
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+}
+
+.hero:before{
+  content:"";
+
+  position:absolute;
+  width:75%;
+  height:180%;
+  left:-80%;
+  top:-40%;
+
+  transform:rotate(22deg);
+
+  background:linear-gradient(
+    90deg,
+    transparent,
+    rgba(255,255,255,.07),
+    transparent
+  );
+
+  animation:liquid 7s ease-in-out infinite;
+}
+
+@keyframes liquid{
+  0%,55%{
+    transform:translate3d(-20%,0,0) rotate(22deg);
+  }
+
+  100%{
+    transform:translate3d(190%,0,0) rotate(22deg);
+  }
+}
+
+.hero:after{
+  content:"";
+
+  position:absolute;
+  left:10%;
+  right:10%;
+  top:0;
+  height:1px;
+
+  background:linear-gradient(
+    90deg,
+    transparent,
+    rgba(255,255,255,.7),
+    transparent
+  );
+
+  opacity:.55;
+}
+
+.badge{
+  position:relative;
+  z-index:2;
+
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+
+  padding:7px 11px;
+
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:999px;
+
+  background:rgba(255,255,255,.035);
+
+  color:#aaa;
+
+  font-size:9px;
+  font-weight:800;
+  letter-spacing:1.5px;
+}
+
+.badge-dot{
+  width:6px;
+  height:6px;
+
+  border-radius:50%;
+  background:#fff;
+
+  box-shadow:
+    0 0 5px #fff,
+    0 0 12px rgba(255,255,255,.7);
+
+  animation:pulse 1.8s ease-in-out infinite;
+}
+
+@keyframes pulse{
+  50%{
+    transform:scale(1.35);
+    opacity:.55;
+  }
+}
+
+.hero h1{
+  position:relative;
+  z-index:2;
+
+  margin-top:17px;
+
+  font-family:"Space Grotesk",sans-serif;
+
+  font-size:clamp(32px,9vw,49px);
+  font-weight:700;
+
+  line-height:.95;
+  letter-spacing:-2.5px;
+
+  background:
+    linear-gradient(
+      110deg,
+      #555 0%,
+      #fff 28%,
+      #999 48%,
+      #fff 68%,
+      #666 100%
+    );
+
+  background-size:220% auto;
+
+  -webkit-background-clip:text;
+  background-clip:text;
+
+  color:transparent;
+
+  animation:chrome 5s linear infinite;
+}
+
+@keyframes chrome{
+  to{
+    background-position:220% center;
+  }
+}
+
+.hero p{
+  position:relative;
+  z-index:2;
+
+  margin-top:13px;
+  max-width:470px;
+
+  color:#888;
+
+  font-size:11px;
+  line-height:1.7;
+}
+
+/* =========================================================
+   NAV
+========================================================= */
+
+.nav{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  flex-wrap:wrap;
+
+  gap:7px;
+  margin:15px 0;
+}
+
+.nav button{
+  position:relative;
+  overflow:hidden;
+
+  padding:10px 12px;
+
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:12px;
+
+  color:#777;
+
+  background:rgba(15,15,15,.8);
+
+  font:800 9px Inter;
+  letter-spacing:.6px;
+
+  cursor:pointer;
+
+  transition:
+    transform .2s ease,
+    color .2s ease,
+    border-color .2s ease,
+    background .2s ease;
+}
+
+.nav button:before{
+  content:"";
+
+  position:absolute;
+  top:0;
+  left:-80%;
+
+  width:55%;
+  height:100%;
+
+  transform:skewX(-20deg);
+
+  background:rgba(255,255,255,.1);
+
+  transition:.45s;
+}
+
+.nav button:hover:before{
+  left:130%;
+}
+
+.nav button.active{
+  color:#fff;
+
+  border-color:rgba(255,255,255,.23);
+
+  background:
+    linear-gradient(
+      135deg,
+      #242424,
+      #090909
+    );
+
+  box-shadow:
+    0 5px 20px rgba(255,255,255,.045),
+    inset 0 1px rgba(255,255,255,.07);
+}
+
+.nav button:active{
+  transform:scale(.96);
+}
+
+/* =========================================================
+   PAGE
+========================================================= */
+
+.page{
+  display:none;
+}
+
+.page.active{
+  display:block;
+
+  animation:
+    pageIn .3s ease both;
+}
+
+@keyframes pageIn{
+  from{
+    opacity:0;
+    transform:translate3d(0,8px,0);
+  }
+
+  to{
+    opacity:1;
+    transform:translate3d(0,0,0);
+  }
+}
+
+/* =========================================================
+   CARD
+========================================================= */
+
+.card{
+  position:relative;
+  overflow:hidden;
+
+  padding:21px;
+
+  border:1px solid rgba(255,255,255,.11);
+  border-radius:22px;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255,255,255,.055),
+      rgba(255,255,255,.012)
+    ),
+    rgba(10,10,10,.78);
+
+  box-shadow:
+    0 20px 50px rgba(0,0,0,.45),
+    inset 0 1px rgba(255,255,255,.055);
+
+  backdrop-filter:blur(11px);
+  -webkit-backdrop-filter:blur(11px);
+
+  margin-bottom:13px;
+}
+
+.card:before{
+  content:"";
+
+  position:absolute;
+  top:0;
+  left:-30%;
+
+  width:28%;
+  height:1px;
+
+  background:linear-gradient(
+    90deg,
+    transparent,
+    #fff,
+    transparent
+  );
+
+  box-shadow:
+    0 0 10px rgba(255,255,255,.5);
+
+  animation:borderBeam 6s linear infinite;
+}
+
+@keyframes borderBeam{
+  from{
+    transform:translate3d(0,0,0);
+  }
+
+  to{
+    transform:translate3d(470%,0,0);
+  }
+}
+
+.card:after{
+  content:"";
+
+  position:absolute;
+
+  width:55%;
+  height:100%;
+
+  top:0;
+  left:-75%;
+
+  transform:skewX(-18deg);
+
+  background:linear-gradient(
+    90deg,
+    transparent,
+    rgba(255,255,255,.035),
+    transparent
+  );
+
+  animation:cardReflection 9s ease-in-out infinite;
+}
+
+@keyframes cardReflection{
+  0%,55%{
+    transform:translate3d(0,0,0) skewX(-18deg);
+  }
+
+  100%{
+    transform:translate3d(300%,0,0) skewX(-18deg);
+  }
+}
+
+.card > *{
+  position:relative;
+  z-index:2;
+}
+
+.card-title{
+  font-family:"Space Grotesk",sans-serif;
+  font-size:18px;
+  font-weight:700;
+}
+
+.card-desc{
+  margin-top:6px;
+
+  color:#777;
+
+  font-size:10px;
+  line-height:1.7;
+}
+
+/* =========================================================
+   FORM
+========================================================= */
+
+.label{
+  display:block;
+
+  margin:19px 0 7px;
+
+  color:#888;
+
+  font-size:9px;
+  font-weight:800;
+  letter-spacing:.9px;
+
+  text-transform:uppercase;
+}
+
+input,
+textarea{
+  width:100%;
+
+  outline:none;
+
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:13px;
+
+  padding:13px 14px;
+
+  color:#eee;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255,255,255,.035),
+      rgba(0,0,0,.45)
+    );
+
+  font:500 11px Inter;
+
+  transition:
+    border-color .2s ease,
+    box-shadow .2s ease,
+    background .2s ease;
+}
+
+textarea{
+  min-height:105px;
+  resize:vertical;
+}
+
+input::placeholder,
+textarea::placeholder{
+  color:#555;
+}
+
+input:focus,
+textarea:focus{
+  border-color:rgba(255,255,255,.3);
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255,255,255,.055),
+      rgba(0,0,0,.5)
+    );
+
+  box-shadow:
+    0 0 0 3px rgba(255,255,255,.025),
+    0 0 25px rgba(255,255,255,.025);
+}
+
+/* =========================================================
+   BUTTON
+========================================================= */
+
+.btn{
+  position:relative;
+  overflow:hidden;
+
+  width:100%;
+
+  margin-top:11px;
+
+  border:0;
+  border-radius:13px;
+
+  padding:14px;
+
+  color:#050505;
+
+  background:
+    linear-gradient(
+      110deg,
+      #777,
+      #fff 28%,
+      #aaa 48%,
+      #fff 72%,
+      #777
+    );
+
+  background-size:220% auto;
+
+  font:800 10px Inter;
+  letter-spacing:.8px;
+
+  cursor:pointer;
+
+  box-shadow:
+    0 8px 25px rgba(255,255,255,.06);
+
+  animation:
+    buttonChrome 4s linear infinite;
+
+  transition:
+    transform .18s ease,
+    filter .18s ease;
+}
+
+@keyframes buttonChrome{
+  to{
+    background-position:220% center;
+  }
+}
+
+.btn:before{
+  content:"";
+
+  position:absolute;
+  top:-20%;
+  left:-30%;
+
+  width:20%;
+  height:140%;
+
+  transform:rotate(20deg);
+
+  background:rgba(255,255,255,.55);
+
+  animation:
+    buttonShine 3.5s ease-in-out infinite;
+}
+
+@keyframes buttonShine{
+  0%,50%{
+    transform:translate3d(-100px,0,0) rotate(20deg);
+  }
+
+  100%{
+    transform:translate3d(600px,0,0) rotate(20deg);
+  }
+}
+
+.btn:active{
+  transform:scale(.985);
+}
+
+.btn:disabled{
+  opacity:.55;
+  animation:none;
+  cursor:not-allowed;
+}
+
+/* =========================================================
+   DIVIDER
+========================================================= */
+
+.divider{
+  position:relative;
+
+  height:1px;
+
+  margin:21px 0;
+
+  background:linear-gradient(
+    90deg,
+    transparent,
+    rgba(255,255,255,.12),
+    transparent
+  );
+}
+
+.divider:after{
+  content:"";
+
+  position:absolute;
+
+  width:45px;
+  height:1px;
+
+  left:50%;
+
+  transform:translateX(-50%);
+
+  background:#fff;
+  opacity:.4;
+
+  animation:
+    dividerPulse 2.5s ease-in-out infinite;
+}
+
+@keyframes dividerPulse{
+  50%{
+    width:90px;
+    opacity:.12;
+  }
+}
+
+/* =========================================================
+   RESULT
+========================================================= */
+
+.result{
+  display:none;
+
+  margin-top:13px;
+  padding:12px;
+
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:12px;
+
+  background:#080808;
+
+  font:500 10px/1.6 monospace;
+
+  white-space:pre-wrap;
+  word-break:break-word;
+}
+
+.result.show{
+  display:block;
+
+  animation:
+    resultIn .25s ease both;
+}
+
+@keyframes resultIn{
+  from{
+    opacity:0;
+    transform:translate3d(0,5px,0);
+  }
+
+  to{
+    opacity:1;
+    transform:translate3d(0,0,0);
+  }
+}
+
+.result.ok{
+  color:var(--green);
+  border-color:rgba(117,255,176,.22);
+}
+
+.result.error{
+  color:var(--red);
+  border-color:rgba(255,102,102,.22);
+}
+
+.result.wait{
+  color:#aaa;
+}
+
+/* =========================================================
+   TEMP MAIL
+========================================================= */
+
+.mail-display{
+  margin-top:17px;
+
+  padding:15px;
+
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:15px;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255,255,255,.035),
+      rgba(0,0,0,.35)
+    );
+}
+
+.mail-label{
+  color:#666;
+
+  font-size:8px;
+  font-weight:800;
+  letter-spacing:1.2px;
+}
+
+.mail-address{
+  margin-top:9px;
+
+  color:#eee;
+
+  font:600 12px/1.5 monospace;
+
+  word-break:break-all;
+}
+
+.mail-status{
+  display:flex;
+  align-items:center;
+  gap:6px;
+
+  margin-top:9px;
+
+  color:#777;
+
+  font:700 8px monospace;
+}
+
+.mail-dot{
+  width:6px;
+  height:6px;
+
+  border-radius:50%;
+
+  background:#555;
+}
+
+.mail-dot.active{
+  background:var(--green);
+
+  box-shadow:
+    0 0 8px var(--green);
+}
+
+.mail-actions{
+  display:grid;
+
+  grid-template-columns:
+    1fr 1fr;
+
+  gap:7px;
+
+  margin-top:11px;
+}
+
+.mail-btn{
+  position:relative;
+  overflow:hidden;
+
+  padding:12px 8px;
+
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:11px;
+
+  background:#111;
+
+  color:#aaa;
+
+  font:800 8px Inter;
+
+  cursor:pointer;
+
+  transition:.2s;
+}
+
+.mail-btn:hover{
+  border-color:rgba(255,255,255,.25);
+  color:#fff;
+}
+
+.mail-btn.primary{
+  color:#050505;
+
+  background:
+    linear-gradient(
+      110deg,
+      #777,
+      #fff,
+      #999,
+      #fff,
+      #777
+    );
+
+  background-size:220%;
+
+  animation:buttonChrome 4s linear infinite;
+}
+
+.mail-btn.danger{
+  color:#ff7777;
+}
+
+.api-box{
+  margin-top:14px;
+
+  overflow:hidden;
+
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:12px;
+
+  background:#070707;
+}
+
+.api-head{
+  padding:10px 12px;
+
+  border-bottom:1px solid rgba(255,255,255,.08);
+
+  color:#666;
+
+  font:800 8px monospace;
+}
+
+.api-row{
+  display:grid;
+
+  grid-template-columns:95px 1fr;
+
+  border-bottom:1px solid rgba(255,255,255,.06);
+}
+
+.api-row:last-child{
+  border-bottom:0;
+}
+
+.api-key{
+  padding:10px;
+
+  color:#777;
+
+  font:700 9px monospace;
+
+  background:#0a0a0a;
+}
+
+.api-value{
+  padding:10px;
+
+  color:#bbb;
+
+  font:500 9px monospace;
+
+  word-break:break-all;
+}
+
+.api-value a{
+  color:#7daaff;
+  text-decoration:none;
+}
+
+/* =========================================================
+   SAVED GMAIL
+========================================================= */
+
+.saved-list{
+  display:flex;
+  flex-direction:column;
+
+  gap:9px;
+
+  margin-top:16px;
+}
+
+.saved-empty{
+  padding:35px 15px;
+
+  text-align:center;
+
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:14px;
+
+  background:rgba(255,255,255,.015);
+
+  color:#666;
+}
+
+.saved-empty .icon{
+  font-size:30px;
+  margin-bottom:10px;
+}
+
+.saved-empty p{
+  font-size:9px;
+  line-height:1.7;
+}
+
+.saved-item{
+  position:relative;
+  overflow:hidden;
+
+  padding:14px;
+
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:15px;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255,255,255,.04),
+      rgba(0,0,0,.35)
+    );
+
+  box-shadow:
+    inset 0 1px rgba(255,255,255,.035);
+}
+
+.saved-item:before{
+  content:"";
+
+  position:absolute;
+
+  left:-30%;
+  top:0;
+
+  width:25%;
+  height:1px;
+
+  background:linear-gradient(
+    90deg,
+    transparent,
+    #fff,
+    transparent
+  );
+
+  animation:
+    savedBeam 5s linear infinite;
+}
+
+@keyframes savedBeam{
+  to{
+    transform:translateX(600%);
+  }
+}
+
+.saved-top{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+
+  gap:10px;
+}
+
+.saved-email{
+  min-width:0;
+}
+
+.saved-email strong{
+  display:block;
+
+  color:#eee;
+
+  font:700 11px monospace;
+
+  word-break:break-all;
+}
+
+.saved-email small{
+  display:block;
+
+  margin-top:5px;
+
+  color:#5e5e5e;
+
+  font-size:8px;
+}
+
+.saved-badge{
+  flex-shrink:0;
+
+  padding:5px 7px;
+
+  border:1px solid rgba(117,255,176,.2);
+  border-radius:7px;
+
+  color:#75ffb0;
+
+  font:800 7px monospace;
+}
+
+.saved-link{
+  margin-top:10px;
+
+  padding:9px;
+
+  border:1px solid rgba(255,255,255,.07);
+  border-radius:9px;
+
+  background:#080808;
+
+  color:#666;
+
+  font:500 8px/1.5 monospace;
+
+  word-break:break-all;
+}
+
+.saved-link span{
+  color:#777;
+}
+
+.saved-actions{
+  display:grid;
+
+  grid-template-columns:
+    1.2fr 1fr 1fr;
+
+  gap:6px;
+
+  margin-top:9px;
+}
+
+.saved-action{
+  padding:9px 5px;
+
+  border:1px solid rgba(255,255,255,.09);
+  border-radius:9px;
+
+  background:#101010;
+
+  color:#999;
+
+  font:800 8px Inter;
+
+  cursor:pointer;
+
+  transition:.18s;
+}
+
+.saved-action:hover{
+  color:#fff;
+  border-color:rgba(255,255,255,.2);
+}
+
+.saved-action.gmail-action{
+  color:#ff8585;
+}
+
+.saved-action.delete-action{
+  color:#ff6868;
+}
+
+.saved-count{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+
+  min-width:20px;
+  height:20px;
+
+  padding:0 6px;
+
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:999px;
+
+  color:#aaa;
+
+  font:800 8px monospace;
+}
+
+/* =========================================================
+   TUTORIAL
+========================================================= */
+
+.video{
+  position:relative;
+  overflow:hidden;
+
+  margin-top:17px;
+
+  border:1px solid rgba(255,255,255,.11);
+  border-radius:16px;
+
+  background:#000;
+
+  aspect-ratio:16/9;
+
+  box-shadow:
+    0 15px 35px rgba(0,0,0,.35);
+}
+
+.video:after{
+  content:"";
+
+  position:absolute;
+  inset:0;
+
+  pointer-events:none;
+
+  background:
+    linear-gradient(
+      110deg,
+      transparent 40%,
+      rgba(255,255,255,.04),
+      transparent 60%
+    );
+
+  animation:
+    videoShine 6s ease-in-out infinite;
+}
+
+@keyframes videoShine{
+  from{
+    transform:translate3d(-100%,0,0);
+  }
+
+  to{
+    transform:translate3d(100%,0,0);
+  }
+}
+
+.video video{
+  display:block;
+
+  width:100%;
+  height:100%;
+
+  object-fit:cover;
+}
+
+.info{
+  position:relative;
+  overflow:hidden;
+
+  margin-top:12px;
+  padding:14px;
+
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:14px;
+
+  background:rgba(255,255,255,.018);
+}
+
+.info:after{
+  content:"";
+
+  position:absolute;
+
+  width:80px;
+  height:1px;
+
+  left:-90px;
+  top:0;
+
+  background:linear-gradient(
+    90deg,
+    transparent,
+    rgba(255,255,255,.5),
+    transparent
+  );
+
+  animation:
+    infoBeam 7s linear infinite;
+}
+
+@keyframes infoBeam{
+  to{
+    transform:translate3d(600px,0,0);
+  }
+}
+
+.info h3{
+  font-size:11px;
+}
+
+.info p{
+  margin-top:6px;
+
+  color:#777;
+
+  font-size:10px;
+  line-height:1.7;
+}
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+.toast{
+  position:fixed;
+
+  left:50%;
+  bottom:22px;
+
+  z-index:50;
+
+  max-width:calc(100% - 30px);
+
+  padding:10px 15px;
+
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:999px;
+
+  background:#111;
+
+  color:#ddd;
+
+  font-size:9px;
+
+  opacity:0;
+  pointer-events:none;
+
+  transform:
+    translate3d(-50%,20px,0);
+
+  box-shadow:
+    0 12px 35px rgba(0,0,0,.5);
+
+  transition:
+    opacity .25s ease,
+    transform .25s ease;
+}
+
+.toast.show{
+  opacity:1;
+
+  transform:
+    translate3d(-50%,0,0);
+}
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.footer{
+  padding:12px;
+
+  text-align:center;
+
+  color:#444;
+
+  font:700 8px monospace;
+
+  letter-spacing:1px;
+}
+
+/* =========================================================
+   LOW FX
+========================================================= */
+
+.lowfx .ambient{
+  filter:blur(30px);
+  opacity:.2;
+}
+
+.lowfx .grid{
+  opacity:.018;
+}
+
+.lowfx .meteor{
+  display:none;
+}
+
+.lowfx .particles .particle:nth-child(n+13){
+  display:none;
+}
+
+.lowfx .hero,
+.lowfx .card{
+  backdrop-filter:blur(6px);
+  -webkit-backdrop-filter:blur(6px);
+}
+
+.lowfx .scanline{
+  opacity:.08;
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media(max-width:600px){
+
+  .app{
+    padding-left:11px;
+    padding-right:11px;
+  }
+
+  .hero{
+    padding:24px 18px;
+    border-radius:21px;
+  }
+
+  .card{
+    padding:18px;
+    border-radius:19px;
+  }
+
+  .ambient{
+    width:280px;
+    height:280px;
+    filter:blur(45px);
+  }
+
+  .grid{
+    background-size:70px 70px;
+  }
+
+  .nav{
+    gap:6px;
+  }
+
+  .nav button{
+    padding:10px 9px;
+    font-size:8px;
+  }
+
+  .saved-actions{
+    grid-template-columns:
+      1fr 1fr 1fr;
+  }
+}
+
+@media(max-width:380px){
+
+  .nav button{
+    padding:9px 7px;
+    font-size:7px;
+  }
+
+  .api-row{
+    grid-template-columns:78px 1fr;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- =======================================================
+     BACKGROUND
+======================================================= -->
+
+<div class="bg">
+
+  <div class="ambient a"></div>
+  <div class="ambient b"></div>
+
+  <div class="grid"></div>
+  <div class="scanline"></div>
+  <div class="light-beam"></div>
+
+  <div
+    class="particles"
+    id="particles">
+  </div>
+
+  <div class="meteor m1"></div>
+  <div class="meteor m2"></div>
+  <div class="meteor m3"></div>
+
+</div>
+
+
+<!-- =======================================================
+     APP
+======================================================= -->
+
+<main class="app">
+
+
+  <!-- =====================================================
+       HERO
+  ====================================================== -->
+
+  <section class="hero">
+
+    <div class="badge">
+
+      <span class="badge-dot"></span>
+
+      RYuze SYSTEM
+
+    </div>
+
+
+    <h1>
+      Alight Motion Premium
+    </h1>
+
+
+    <p>
+      Dapatkan Premium alight Motion 1 Tahun Secara FREE Di Website Ini
+    </p>
+
+  </section>
+
+
+  <!-- =====================================================
+       NAVIGATION
+  ====================================================== -->
+
+  <nav class="nav">
+
+    <button
+      class="active"
+      data-page="premium">
+
+      ✦ AM PREMIUM
+
+    </button>
+
+
+    <button
+      data-page="tempmail">
+
+      ✉ TEMP MAIL
+
+    </button>
+
+
+    <button
+      data-page="saved">
+
+      ♡ SAVED GMAIL
+
+    </button>
+
+
+    <button
+      data-page="tutorial">
+
+      ? CARA PAKAI
+
+    </button>
+
+
+    <button
+      data-page="about">
+
+      ◉ ABOUT
+
+    </button>
+
+  </nav>
+
+
+  <!-- =====================================================
+       AM PREMIUM
+  ====================================================== -->
+
+  <section
+    class="page active"
+    id="premium">
+
+    <div class="card">
+
+      <div class="card-title">
+        Alight Motion Premium
+      </div>
+
+
+      <div class="card-desc">
+
+        Kirim Link Verifikasi lalu masukkan link verifikasi
+        yang diterima pada email kamu. Tutorial lebih lanjut
+        ada di menu "CARA PAKAI".
+
+      </div>
+
+
+      <label class="label">
+        Account Email
+      </label>
+
+
+      <input
+        id="email"
+        type="email"
+        autocomplete="email"
+        placeholder="user@email.com"
+      >
+
+
+      <button
+        class="btn"
+        id="sendBtn">
+
+        SEND MAGIC LINK
+
+      </button>
+
+
+      <div class="divider"></div>
+
+
+      <label class="label">
+        Verification Link
+      </label>
+
+
+      <textarea
+        id="link"
+        placeholder="Paste verification link di sini..."
+      ></textarea>
+
+
+      <button
+        class="btn"
+        id="verifyBtn">
+
+        VERIFY ACCOUNT
+
+      </button>
+
+
+      <div
+        class="result"
+        id="result">
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- =====================================================
+       TEMP MAIL
+  ====================================================== -->
+
+  <section
+    class="page"
+    id="tempmail">
+
+    <div class="card">
+
+      <div class="card-title">
+        Temporary Mail
+      </div>
+
+
+      <div class="card-desc">
+
+        Buat alamat email temporary secara otomatis.
+        Email yang berhasil dibuat akan tersimpan
+        otomatis di menu "SAVED GMAIL".
+
+      </div>
+
+
+      <button
+        class="btn"
+        id="generateBtn">
+
+        ⚡ GENERATE EMAIL
+
+      </button>
+
+
+      <div
+        class="mail-display"
+        id="mailDisplay">
+
+        <div class="mail-label">
+          CURRENT EMAIL
+        </div>
+
+
+        <div
+          class="mail-address"
+          id="mailAddress">
+
+          Belum ada email
+
+        </div>
+
+
+        <div class="mail-status">
+
+          <span
+            class="mail-dot"
+            id="mailDot">
+          </span>
+
+          <span id="mailStatus">
+            WAITING
+
+          </span>
+
+        </div>
+
+
+        <div class="mail-actions">
+
+          <button
+            class="mail-btn"
+            onclick="copyCurrentMail()">
+
+            COPY
+
+          </button>
+
+
+          <button
+            class="mail-btn primary"
+            onclick="openCurrentGmail()">
+
+            OPEN GMAIL
+
+          </button>
+
+        </div>
+
+      </div>
+
+
+      <!-- API DATA -->
+
+      <div class="api-box">
+
+        <div class="api-head">
+          EMAIL GENERATOR API
+        </div>
+
+
+        <div class="api-row">
+
+          <div class="api-key">
+            STATUS
+          </div>
+
+          <div
+            class="api-value"
+            id="mailApiStatus">
+
+            —
+
+          </div>
+
+        </div>
+
+
+        <div class="api-row">
+
+          <div class="api-key">
+            CREATOR
+          </div>
+
+          <div
+            class="api-value"
+            id="mailCreator">
+
+            —
+
+          </div>
+
+        </div>
+
+
+        <div class="api-row">
+
+          <div class="api-key">
+            USERNAME
+          </div>
+
+          <div
+            class="api-value"
+            id="mailUsername">
+
+            —
+
+          </div>
+
+        </div>
+
+
+        <div class="api-row">
+
+          <div class="api-key">
+            DOMAIN
+          </div>
+
+          <div
+            class="api-value"
+            id="mailDomain">
+
+            —
+
+          </div>
+
+        </div>
+
+
+        <div class="api-row">
+
+          <div class="api-key">
+            INBOX LINK
+          </div>
+
+          <div
+            class="api-value"
+            id="mailInbox">
+
+            —
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- =====================================================
+       SAVED GMAIL
+  ====================================================== -->
+
+  <section
+    class="page"
+    id="saved">
+
+    <div class="card">
+
+      <div
+        style="
+          display:flex;
+          align-items:center;
+          justify-content:space-between;
+          gap:10px;
+        "
+      >
+
+        <div class="card-title">
+          Saved Gmail
+        </div>
+
+
+        <span
+          class="saved-count"
+          id="savedCount">
+
+          0
+
+        </span>
+
+      </div>
+
+
+      <div class="card-desc">
+
+        Semua email yang pernah kamu generate
+        akan otomatis tersimpan di sini.
+        Link inbox mengikuti link yang diberikan
+        oleh generator.
+
+      </div>
+
+
+      <div
+        class="saved-list"
+        id="savedList">
+
+        <div class="saved-empty">
+
+          <div class="icon">
+            ✉
+          </div>
+
+          <p>
+            Belum ada email tersimpan.<br>
+            Generate email dari menu TEMP MAIL.
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- =====================================================
+       TUTORIAL
+  ====================================================== -->
+
+  <section
+    class="page"
+    id="tutorial">
+
+    <div class="card">
+
+      <div class="card-title">
+        Cara Pakai
+      </div>
+
+
+      <div class="card-desc">
+
+        Ikuti tutorial berikut untuk mengetahui
+        langkah penggunaan sistem.
+
+      </div>
+
+
+      <div class="video">
+
+        <video
+          controls
+          playsinline
+          preload="metadata"
+          src="https://files.catbox.moe/dgp6k5.mp4">
+        </video>
+
+      </div>
+
+
+      <div class="info">
+
+        <h3>
+          STEP 01 — SEND
+        </h3>
+
+        <p>
+          Masukkan email akun kamu kemudian tekan
+          tombol Send Magic Link.
+        </p>
+
+      </div>
+
+
+      <div class="info">
+
+        <h3>
+          STEP 02 — VERIFY
+        </h3>
+
+        <p>
+          Buka link verifikasi yang kamu terima,
+          lalu masukkan link tersebut ke kolom
+          Verification Link.
+        </p>
+
+      </div>
+
+
+      <div class="info">
+
+        <h3>
+          STEP 03 — TEMP MAIL
+        </h3>
+
+        <p>
+          Jika membutuhkan alamat temporary,
+          buka menu TEMP MAIL lalu tekan
+          Generate Email. Email tersebut otomatis
+          masuk ke menu SAVED GMAIL.
+        </p>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- =====================================================
+       ABOUT
+  ====================================================== -->
+
+  <section
+    class="page"
+    id="about">
+
+    <div class="card">
+
+      <div class="card-title">
+        About Ryuze
+      </div>
+
+
+      <div class="card-desc">
+
+        AM Premium Verification dengan interface
+        futuristic dan optimized mobile.
+
+      </div>
+
+
+      <div class="info">
+
+        <h3>
+          ⚡ PERFORMANCE
+        </h3>
+
+        <p>
+          Animasi menggunakan transform dan opacity
+          sebanyak mungkin agar rendering tetap ringan.
+        </p>
+
+      </div>
+
+
+      <div class="info">
+
+        <h3>
+          🔐 VERIFICATION
+        </h3>
+
+        <p>
+          Gunakan hanya email dan akun yang memang
+          kamu miliki atau berhak kamu akses.
+        </p>
+
+      </div>
+
+
+      <div class="info">
+
+        <h3>
+          ✉ TEMP MAIL
+        </h3>
+
+        <p>
+          Temporary email dibuat menggunakan
+          generator API dan data email disimpan
+          secara lokal pada browser.
+        </p>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <div class="footer">
+    RYuze SYSTEM • AM PREMIUM • TEMP MAIL
+  </div>
+
+</main>
+
+
+<div
+  class="toast"
+  id="toast">
+</div>
+
+
+<script>
+
+/* =========================================================
+   AM PREMIUM API
+========================================================= */
+
+const COOKIE_API =
+  "https://am.yappi.my.id/api/cookie";
+
+const SEND_API =
+  "https://am.yappi.my.id/api/send";
+
+const VERIFY_API =
+  "https://am.yappi.my.id/api/verify";
+
+
+/* =========================================================
+   TEMP MAIL API
+========================================================= */
+
+const MAIL_API =
+  "https://albyoffc.my.id/tools/emailgen";
+
+const MAIL_API_KEY =
+  "albymd-1cd3644";
+
+
+/* =========================================================
+   ELEMENTS
+========================================================= */
+
+const emailInput =
+  document.getElementById("email");
+
+const linkInput =
+  document.getElementById("link");
+
+const sendBtn =
+  document.getElementById("sendBtn");
+
+const verifyBtn =
+  document.getElementById("verifyBtn");
+
+const result =
+  document.getElementById("result");
+
+const toast =
+  document.getElementById("toast");
+
+
+/* =========================================================
+   CURRENT MAIL
+========================================================= */
+
+let currentMail = null;
+
+
+/* =========================================================
+   PARTICLES
+========================================================= */
+
+const particleBox =
+  document.getElementById("particles");
+
+const particleCount =
+  window.innerWidth < 600 ? 18 : 28;
+
+for(let i=0;i<particleCount;i++){
+
+  const p =
+    document.createElement("i");
+
+  p.className="particle";
+
+  p.style.left =
+    Math.random()*100+"%";
+
+  p.style.animationDelay =
+    (-Math.random()*8)+"s";
+
+  p.style.animationDuration =
+    (5+Math.random()*6)+"s";
+
+  p.style.opacity =
+    (.12+Math.random()*.25);
+
+  particleBox.appendChild(p);
+}
+
+
+/* =========================================================
+   LOW FX
+========================================================= */
+
+const weakDevice =
+  (
+    navigator.hardwareConcurrency &&
+    navigator.hardwareConcurrency <= 4
+  ) ||
+  (
+    navigator.deviceMemory &&
+    navigator.deviceMemory <= 4
+  ) ||
+  window.matchMedia(
+    "(prefers-reduced-motion: reduce)"
+  ).matches;
+
+if(weakDevice){
+
+  document.documentElement
+    .classList.add("lowfx");
+
+}
+
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+let toastTimer;
+
+function showToast(text){
+
+  toast.textContent =
+    text;
+
+  toast.classList.add(
+    "show"
+  );
+
+  clearTimeout(
+    toastTimer
+  );
+
+  toastTimer =
+    setTimeout(
+      ()=>{
+        toast.classList.remove(
+          "show"
+        );
+      },
+      2200
+    );
+
+}
+
+
+/* =========================================================
+   RESULT
+========================================================= */
+
+function setResult(
+  text,
+  type="wait"
+){
+
+  result.textContent =
+    text;
+
+  result.className =
+    "result show "+type;
+
+}
+
+
+/* =========================================================
+   COOKIE
+========================================================= */
+
+async function getCookie(){
+
+  const response =
+    await fetch(
+      COOKIE_API,
+      {
+        method:"GET"
+      }
+    );
+
+  if(!response.ok){
+
+    throw new Error(
+      "Gagal mendapatkan session."
+    );
+
+  }
+
+  return await response.json();
+
+}
+
+
+/* =========================================================
+   SEND
+========================================================= */
+
+sendBtn.addEventListener(
+  "click",
+  async()=>{
+
+    const email =
+      emailInput.value.trim();
+
+    if(!email){
+
+      setResult(
+        "Masukkan email terlebih dahulu.",
+        "error"
+      );
+
+      return;
+
+    }
+
+    sendBtn.disabled=true;
+
+    sendBtn.textContent =
+      "PROCESSING...";
+
+    setResult(
+      "Mengirim Magic Link...",
+      "wait"
+    );
+
+    try{
+
+      const cookieData =
+        await getCookie();
+
+      const cookie =
+        cookieData.cookie ||
+        cookieData.session ||
+        cookieData.data?.cookie ||
+        "";
+
+      const response =
+        await fetch(
+          SEND_API,
+          {
+            method:"POST",
+
+            headers:{
+              "Content-Type":
+                "application/json"
+            },
+
+            body:JSON.stringify({
+              email,
+              cookie
+            })
+          }
+        );
+
+      const data =
+        await response
+          .json()
+          .catch(
+            ()=>({})
+          );
+
+      if(!response.ok){
+
+        throw new Error(
+          data.message ||
+          data.error ||
+          "Request gagal."
+        );
+
+      }
+
+      setResult(
+        data.message ||
+        data.msg ||
+        "Magic Link berhasil dikirim. Silakan cek email kamu.",
+        "ok"
+      );
+
+      showToast(
+        "Magic Link terkirim"
+      );
+
+    }catch(error){
+
+      setResult(
+        "ERROR: "+error.message,
+        "error"
+      );
+
+    }finally{
+
+      sendBtn.disabled=false;
+
+      sendBtn.textContent =
+        "SEND MAGIC LINK";
+
+    }
+
+  }
+);
+
+
+/* =========================================================
+   VERIFY
+========================================================= */
+
+verifyBtn.addEventListener(
+  "click",
+  async()=>{
+
+    const email =
+      emailInput.value.trim();
+
+    const link =
+      linkInput.value.trim();
+
+    if(!email){
+
+      setResult(
+        "Masukkan email terlebih dahulu.",
+        "error"
+      );
+
+      return;
+
+    }
+
+    if(!link){
+
+      setResult(
+        "Masukkan Verification Link.",
+        "error"
+      );
+
+      return;
+
+    }
+
+    verifyBtn.disabled=true;
+
+    verifyBtn.textContent =
+      "VERIFYING...";
+
+    setResult(
+      "Memverifikasi account...",
+      "wait"
+    );
+
+    try{
+
+      const cookieData =
+        await getCookie();
+
+      const cookie =
+        cookieData.cookie ||
+        cookieData.session ||
+        cookieData.data?.cookie ||
+        "";
+
+      const response =
+        await fetch(
+          VERIFY_API,
+          {
+            method:"POST",
+
+            headers:{
+              "Content-Type":
+                "application/json"
+            },
+
+            body:JSON.stringify({
+              email,
+              link,
+              cookie
+            })
+          }
+        );
+
+      const data =
+        await response
+          .json()
+          .catch(
+            ()=>({})
+          );
+
+      if(!response.ok){
+
+        throw new Error(
+          data.message ||
+          data.error ||
+          "Verification gagal."
+        );
+
+      }
+
+      setResult(
+        data.message ||
+        data.msg ||
+        "Account berhasil diverifikasi.",
+        "ok"
+      );
+
+      showToast(
+        "Verification berhasil"
+      );
+
+    }catch(error){
+
+      setResult(
+        "ERROR: "+error.message,
+        "error"
+      );
+
+    }finally{
+
+      verifyBtn.disabled=false;
+
+      verifyBtn.textContent =
+        "VERIFY ACCOUNT";
+
+    }
+
+  }
+);
+
+
+/* =========================================================
+   TEMP MAIL STORAGE
+========================================================= */
+
+const MAIL_STORAGE =
+  "ryuze_saved_gmail_v1";
+
+
+function getSavedMails(){
+
+  try{
+
+    return JSON.parse(
+      localStorage.getItem(
+        MAIL_STORAGE
+      ) || "[]"
+    );
+
+  }catch{
+
+    return [];
+
+  }
+
+}
+
+
+function saveMail(data){
+
+  let list =
+    getSavedMails();
+
+  /*
+    Jangan menggunakan expiry timer.
+    Email tetap disimpan di browser.
+  */
+
+  list =
+    list.filter(
+      x =>
+        x.email !== data.email
+    );
+
+  list.unshift({
+
+    email:
+      data.email || "",
+
+    username:
+      data.username || "",
+
+    domain:
+      data.domain || "",
+
+    inbox_url:
+      data.inbox_url || "",
+
+    creator:
+      data.creator || "",
+
+    createdAt:
+      Date.now()
+
+  });
+
+  /*
+    Batasi jumlah data lokal.
+  */
+
+  list =
+    list.slice(0,50);
+
+  localStorage.setItem(
+    MAIL_STORAGE,
+    JSON.stringify(list)
+  );
+
+  renderSavedMails();
+
+}
+
+
+/* =========================================================
+   GENERATE TEMP MAIL
+========================================================= */
+
+const generateBtn =
+  document.getElementById(
+    "generateBtn"
+  );
+
+
+generateBtn.addEventListener(
+  "click",
+  generateMail
+);
+
+
+async function generateMail(){
+
+  generateBtn.disabled=true;
+
+  generateBtn.textContent =
+    "⏳ GENERATING...";
+
+
+  document.getElementById(
+    "mailStatus"
+  ).textContent =
+    "GENERATING";
+
+
+  document.getElementById(
+    "mailDot"
+  ).classList.remove(
+    "active"
+  );
+
+
+  try{
+
+    const response =
+      await fetch(
+        MAIL_API,
+        {
+          method:"GET",
+
+          headers:{
+            "x-api-key":
+              MAIL_API_KEY
+          }
+        }
+      );
+
+
+    if(!response.ok){
+
+      throw new Error(
+        "HTTP "+response.status
+      );
+
+    }
+
+
+    const json =
+      await response.json();
+
+
+    if(
+      !json.status ||
+      !json.data
+    ){
+
+      throw new Error(
+        "Response API invalid."
+      );
+
+    }
+
+
+    currentMail = {
+
+      ...json.data,
+
+      creator:
+        json.creator,
+
+      status:
+        json.status
+
+    };
+
+
+    showMail(
+      currentMail
+    );
+
+
+    saveMail(
+      currentMail
+    );
+
+
+    showToast(
+      "✓ Gmail berhasil dibuat & disimpan"
+    );
+
+
+  }catch(error){
+
+    console.error(
+      error
+    );
+
+
+    document.getElementById(
+      "mailStatus"
+    ).textContent =
+      "ERROR";
+
+
+    showToast(
+      "Gagal: "+error.message
+    );
+
+
+  }finally{
+
+    generateBtn.disabled=false;
+
+    generateBtn.textContent =
+      "⚡ GENERATE EMAIL";
+
+  }
+
+}
+
+
+/* =========================================================
+   SHOW MAIL
+========================================================= */
+
+function showMail(data){
+
+  document.getElementById(
+    "mailAddress"
+  ).textContent =
+    data.email || "—";
+
+
+  document.getElementById(
+    "mailStatus"
+  ).textContent =
+    "ACTIVE";
+
+
+  document.getElementById(
+    "mailDot"
+  ).classList.add(
+    "active"
+  );
+
+
+  document.getElementById(
+    "mailApiStatus"
+  ).textContent =
+    data.status ?? true;
+
+
+  document.getElementById(
+    "mailCreator"
+  ).textContent =
+    data.creator || "—";
+
+
+  document.getElementById(
+    "mailUsername"
+  ).textContent =
+    data.username || "—";
+
+
+  document.getElementById(
+    "mailDomain"
+  ).textContent =
+    data.domain || "—";
+
+
+  const inbox =
+    document.getElementById(
+      "mailInbox"
+    );
+
+
+  if(data.inbox_url){
+
+    inbox.innerHTML =
+      `
+        <a
+          href="${safe(data.inbox_url)}"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          ${safe(data.inbox_url)}
+        </a>
+      `;
+
+  }else{
+
+    inbox.textContent =
+      "—";
+
+  }
+
+}
+
+
+/* =========================================================
+   COPY CURRENT MAIL
+========================================================= */
+
+async function copyCurrentMail(){
+
+  if(!currentMail?.email){
+
+    showToast(
+      "Generate email dulu."
+    );
+
+    return;
+
+  }
+
+  await copyText(
+    currentMail.email
+  );
+
+}
+
+
+/* =========================================================
+   GMAIL
+========================================================= */
+
+function openCurrentGmail(){
+
+  if(!currentMail?.email){
+
+    showToast(
+      "Generate email dulu."
+    );
+
+    return;
+
+  }
+
+  openGmail(
+    currentMail.email
+  );
+
+}
+
+
+function openGmail(email){
+
+  const url =
+    "https://mail.google.com/mail/"
+    +
+    "?view=cm"
+    +
+    "&fs=1"
+    +
+    "&to="
+    +
+    encodeURIComponent(email);
+
+  window.open(
+    url,
+    "_blank"
+  );
+
+}
+
+
+/* =========================================================
+   SAVED MAILS
+========================================================= */
+
+function renderSavedMails(){
+
+  const list =
+    getSavedMails();
+
+  const box =
+    document.getElementById(
+      "savedList"
+    );
+
+  document.getElementById(
+    "savedCount"
+  ).textContent =
+    list.length;
+
+
+  if(!list.length){
+
+    box.innerHTML = `
+
+      <div class="saved-empty">
+
+        <div class="icon">
+          ✉
+        </div>
+
+        <p>
+          Belum ada email tersimpan.<br>
+          Generate email dari menu TEMP MAIL.
+        </p>
+
+      </div>
+
+    `;
+
+    return;
+
+  }
+
+
+  box.innerHTML =
+    list.map(
+      (item,index)=>`
+
+        <div
+          class="saved-item"
+        >
+
+          <div class="saved-top">
+
+            <div class="saved-email">
+
+              <strong>
+                ${safe(item.email)}
+              </strong>
+
+              <small>
+                ${safe(item.domain || "Temporary Email")}
+              </small>
+
+            </div>
+
+
+            <div class="saved-badge">
+              SAVED
+            </div>
+
+          </div>
+
+
+          <div class="saved-link">
+
+            <span>
+              INBOX:
+            </span>
+
+            ${
+              item.inbox_url
+              ? safe(item.inbox_url)
+              : "Tidak tersedia"
+            }
+
+          </div>
+
+
+          <div class="saved-actions">
+
+            <button
+              class="saved-action"
+              onclick="openSavedInbox(${index})"
+            >
+              OPEN LINK
+            </button>
+
+
+            <button
+              class="saved-action gmail-action"
+              onclick="openSavedGmail(${index})"
+            >
+              GMAIL
+            </button>
+
+
+            <button
+              class="saved-action"
+              onclick="copySavedMail(${index})"
+            >
+              COPY
+            </button>
+
+          </div>
+
+
+          <button
+            class="saved-action delete-action"
+            style="
+              width:100%;
+              margin-top:6px;
+            "
+            onclick="deleteSavedMail(${index})"
+          >
+            DELETE EMAIL
+
+          </button>
+
+        </div>
+
+      `
+    ).join("");
+
+}
+
+
+/* =========================================================
+   OPEN SAVED INBOX
+========================================================= */
+
+function openSavedInbox(index){
+
+  const list =
+    getSavedMails();
+
+  const item =
+    list[index];
+
+  if(!item){
+
+    return;
+
+  }
+
+  if(!item.inbox_url){
+
+    showToast(
+      "Link inbox tidak tersedia."
+    );
+
+    return;
+
+  }
+
+  window.open(
+    item.inbox_url,
+    "_blank"
+  );
+
+}
+
+
+/* =========================================================
+   OPEN SAVED GMAIL
+========================================================= */
+
+function openSavedGmail(index){
+
+  const list =
+    getSavedMails();
+
+  const item =
+    list[index];
+
+  if(!item){
+
+    return;
+
+  }
+
+  if(!item.email){
+
+    return;
+
+  }
+
+  openGmail(
+    item.email
+  );
+
+}
+
+
+/* =========================================================
+   COPY SAVED
+========================================================= */
+
+async function copySavedMail(index){
+
+  const list =
+    getSavedMails();
+
+  const item =
+    list[index];
+
+  if(!item){
+
+    return;
+
+  }
+
+  await copyText(
+    item.email
+  );
+
+}
+
+
+/* =========================================================
+   DELETE SAVED
+========================================================= */
+
+function deleteSavedMail(index){
+
+  let list =
+    getSavedMails();
+
+  if(!list[index]){
+
+    return;
+
+  }
+
+  list.splice(
+    index,
+    1
+  );
+
+  localStorage.setItem(
+    MAIL_STORAGE,
+    JSON.stringify(list)
+  );
+
+  renderSavedMails();
+
+  showToast(
+    "Email dihapus dari Saved Gmail"
+  );
+
+}
+
+
+/* =========================================================
+   COPY
+========================================================= */
+
+async function copyText(text){
+
+  try{
+
+    await navigator
+      .clipboard
+      .writeText(text);
+
+    showToast(
+      "✓ Email disalin"
+    );
+
+  }catch{
+
+    showToast(
+      "Gagal copy"
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   SAFE HTML
+========================================================= */
+
+function safe(value){
+
+  return String(
+    value || ""
+  )
+  .replace(
+    /&/g,
+    "&amp;"
+  )
+  .replace(
+    /</g,
+    "&lt;"
+  )
+  .replace(
+    />/g,
+    "&gt;"
+  )
+  .replace(
+    /"/g,
+    "&quot;"
+  )
+  .replace(
+    /'/g,
+    "&#039;"
+  );
+
+}
+
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+document
+  .querySelectorAll(
+    ".nav button"
+  )
+  .forEach(
+    button=>{
+
+      button.addEventListener(
+        "click",
+        ()=>{
+
+          document
+            .querySelectorAll(
+              ".nav button"
+            )
+            .forEach(
+              x=>{
+                x.classList.remove(
+                  "active"
+                );
+              }
+            );
+
+
+          button.classList.add(
+            "active"
+          );
+
+
+          document
+            .querySelectorAll(
+              ".page"
+            )
+            .forEach(
+              page=>{
+                page.classList.remove(
+                  "active"
+                );
+              }
+            );
+
+
+          const target =
+            document.getElementById(
+              button.dataset.page
+            );
+
+
+          if(target){
+
+            target.classList.add(
+              "active"
+            );
+
+          }
+
+
+          window.scrollTo({
+            top:0,
+            behavior:"smooth"
+          });
+
+        }
+      );
+
+    }
+  );
+
+
+/* =========================================================
+   NO PINCH ZOOM
+========================================================= */
+
+[
+  "gesturestart",
+  "gesturechange",
+  "gestureend"
+].forEach(
+  event=>{
+
+    document.addEventListener(
+      event,
+      e=>e.preventDefault(),
+      {
+        passive:false
+      }
+    );
+
+  }
+);
+
+
+/* =========================================================
+   DOUBLE TAP ZOOM
+========================================================= */
+
+let lastTouch=0;
+
+document.addEventListener(
+  "touchend",
+  e=>{
+
+    const now =
+      Date.now();
+
+    if(
+      now-lastTouch < 300
+    ){
+
+      e.preventDefault();
+
+    }
+
+    lastTouch =
+      now;
+
+  },
+  {
+    passive:false
+  }
+);
+
+
+/* =========================================================
+   INIT
+========================================================= */
+
+renderSavedMails();
+
+</script>
+
+</body>
+</html>
