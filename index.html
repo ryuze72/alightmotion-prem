@@ -10,7 +10,7 @@ content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,vie
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
-<title>Ryuze System • AM Premium + TempMail</title>
+<title>AM Premium • Ryuze</title>
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap');
@@ -24,7 +24,6 @@ content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,vie
   --glass:rgba(14,14,14,.72);
   --green:#75ffb0;
   --red:#ff6666;
-  --blue:#79aaff;
 }
 
 *{
@@ -57,39 +56,54 @@ body{
   inset:0;
   overflow:hidden;
   pointer-events:none;
-  z-index:-10;
+  z-index:-20;
 
   background:
     radial-gradient(
       circle at 50% -15%,
-      rgba(255,255,255,.11),
-      transparent 38%
+      rgba(255,255,255,.12),
+      transparent 36%
+    ),
+    radial-gradient(
+      circle at 100% 50%,
+      rgba(255,255,255,.035),
+      transparent 30%
     ),
     #030303;
 }
 
 .ambient{
   position:absolute;
-  width:360px;
-  height:360px;
+  width:330px;
+  height:330px;
   border-radius:50%;
-  opacity:.35;
+  opacity:.3;
   filter:blur(55px);
   will-change:transform;
 }
 
 .ambient.a{
-  top:-180px;
+  top:-170px;
   left:-140px;
-  background:rgba(255,255,255,.12);
-  animation:ambientMove 12s ease-in-out infinite alternate;
+  background:rgba(255,255,255,.11);
+  animation:ambientMove 14s ease-in-out infinite alternate;
 }
 
 .ambient.b{
   right:-160px;
   bottom:-180px;
   background:rgba(180,180,180,.08);
-  animation:ambientMove2 15s ease-in-out infinite alternate;
+  animation:ambientMove2 17s ease-in-out infinite alternate;
+}
+
+.ambient.c{
+  top:38%;
+  left:45%;
+  width:220px;
+  height:220px;
+  opacity:.09;
+  background:#fff;
+  animation:ambientMove3 20s ease-in-out infinite alternate;
 }
 
 @keyframes ambientMove{
@@ -100,35 +114,47 @@ body{
   to{transform:translate3d(-90px,-60px,0)}
 }
 
+@keyframes ambientMove3{
+  to{transform:translate3d(-70px,100px,0)}
+}
+
 .grid{
   position:absolute;
-  inset:0;
-  opacity:.045;
+  inset:-100px;
+  opacity:.042;
 
   background-image:
     linear-gradient(
-      rgba(255,255,255,.5) 1px,
+      rgba(255,255,255,.45) 1px,
       transparent 1px
     ),
     linear-gradient(
       90deg,
-      rgba(255,255,255,.5) 1px,
+      rgba(255,255,255,.45) 1px,
       transparent 1px
     );
 
   background-size:58px 58px;
 
-  mask-image:linear-gradient(
-    to bottom,
-    black,
-    transparent 75%
-  );
+  mask-image:
+    linear-gradient(
+      to bottom,
+      black,
+      transparent 85%
+    );
+
+  animation:gridMove 24s linear infinite;
+}
+
+@keyframes gridMove{
+  from{transform:translate3d(0,0,0)}
+  to{transform:translate3d(58px,58px,0)}
 }
 
 .scanline{
   position:absolute;
   inset:0;
-  opacity:.17;
+  opacity:.14;
 
   background:
     repeating-linear-gradient(
@@ -142,29 +168,43 @@ body{
 .light-beam{
   position:absolute;
   width:2px;
-  height:100%;
-  left:-10%;
-  opacity:.12;
+  height:120%;
+  left:-20%;
+  top:-10%;
 
-  background:linear-gradient(
-    transparent,
-    #fff,
-    transparent
-  );
+  opacity:.13;
 
-  transform:skewX(-12deg);
+  background:
+    linear-gradient(
+      transparent,
+      #fff,
+      transparent
+    );
 
-  animation:beam 9s linear infinite;
+  transform:rotate(13deg);
+
+  animation:beam 10s linear infinite;
 }
 
 @keyframes beam{
   from{
-    transform:translate3d(-30vw,0,0) skewX(-12deg);
+    transform:
+      translate3d(-40vw,0,0)
+      rotate(13deg);
   }
 
   to{
-    transform:translate3d(130vw,0,0) skewX(-12deg);
+    transform:
+      translate3d(150vw,0,0)
+      rotate(13deg);
   }
+}
+
+.light-beam.two{
+  width:1px;
+  opacity:.07;
+  animation-duration:15s;
+  animation-delay:4s;
 }
 
 /* =========================================================
@@ -182,31 +222,76 @@ body{
   height:2px;
   border-radius:50%;
   background:#fff;
-  opacity:.28;
+  opacity:.2;
 
   box-shadow:
-    0 0 5px rgba(255,255,255,.5);
+    0 0 5px rgba(255,255,255,.6);
 
   animation:particleUp linear infinite;
 }
 
 @keyframes particleUp{
-  from{
-    transform:translate3d(0,110vh,0);
+  0%{
+    transform:
+      translate3d(0,110vh,0)
+      scale(.6);
     opacity:0;
   }
 
-  12%{
-    opacity:.3;
+  12%{opacity:.32}
+
+  50%{
+    transform:
+      translate3d(20px,45vh,0)
+      scale(1);
   }
 
-  85%{
-    opacity:.22;
-  }
+  85%{opacity:.18}
 
-  to{
-    transform:translate3d(0,-15vh,0);
+  100%{
+    transform:
+      translate3d(-20px,-15vh,0)
+      scale(.5);
     opacity:0;
+  }
+}
+
+/* =========================================================
+   STARS
+========================================================= */
+
+.stars{
+  position:absolute;
+  inset:0;
+}
+
+.star{
+  position:absolute;
+  width:2px;
+  height:2px;
+  border-radius:50%;
+  background:#fff;
+  opacity:.18;
+
+  animation:
+    starBlink 2.8s ease-in-out infinite;
+}
+
+.star.big{
+  width:3px;
+  height:3px;
+  box-shadow:0 0 8px #fff;
+}
+
+@keyframes starBlink{
+  0%,100%{
+    opacity:.08;
+    transform:scale(.7);
+  }
+
+  50%{
+    opacity:.5;
+    transform:scale(1.35);
   }
 }
 
@@ -219,21 +304,24 @@ body{
   width:90px;
   height:1px;
 
-  background:linear-gradient(
-    90deg,
-    transparent,
-    rgba(255,255,255,.65),
-    transparent
-  );
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(255,255,255,.7),
+      transparent
+    );
 
   opacity:0;
   transform:rotate(-35deg);
 
-  animation:meteor 7s linear infinite;
+  animation:
+    meteor 8s linear infinite;
 }
 
 .meteor:after{
   content:"";
+
   position:absolute;
   right:0;
   top:-1px;
@@ -244,44 +332,51 @@ body{
   border-radius:50%;
   background:#fff;
 
-  box-shadow:0 0 8px #fff;
+  box-shadow:
+    0 0 8px #fff;
 }
 
 .meteor.m1{
-  top:18%;
+  top:14%;
   left:-15%;
 }
 
 .meteor.m2{
-  top:42%;
+  top:40%;
   left:-20%;
   animation-delay:3s;
 }
 
 .meteor.m3{
-  top:65%;
+  top:67%;
   left:-20%;
-  animation-delay:5.5s;
+  animation-delay:6s;
+}
+
+.meteor.m4{
+  top:82%;
+  left:-20%;
+  animation-delay:1.5s;
 }
 
 @keyframes meteor{
   0%{
-    transform:translate3d(0,0,0) rotate(-35deg);
+    transform:
+      translate3d(0,0,0)
+      rotate(-35deg);
     opacity:0;
   }
 
-  8%{
-    opacity:.5;
-  }
+  8%{opacity:.5}
 
   25%{
-    transform:translate3d(130vw,45vh,0) rotate(-35deg);
+    transform:
+      translate3d(130vw,45vh,0)
+      rotate(-35deg);
     opacity:0;
   }
 
-  100%{
-    opacity:0;
-  }
+  100%{opacity:0}
 }
 
 /* =========================================================
@@ -308,7 +403,9 @@ body{
 
   padding:27px 21px 25px;
 
-  border:1px solid rgba(255,255,255,.13);
+  border:
+    1px solid rgba(255,255,255,.13);
+
   border-radius:25px;
 
   background:
@@ -324,38 +421,46 @@ body{
     0 20px 55px rgba(0,0,0,.5),
     inset 0 1px rgba(255,255,255,.08);
 
-  backdrop-filter:blur(14px);
-  -webkit-backdrop-filter:blur(14px);
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
 }
 
 .hero:before{
   content:"";
 
   position:absolute;
+
   width:75%;
   height:180%;
+
   left:-80%;
   top:-40%;
 
   transform:rotate(22deg);
 
-  background:linear-gradient(
-    90deg,
-    transparent,
-    rgba(255,255,255,.07),
-    transparent
-  );
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(255,255,255,.07),
+      transparent
+    );
 
-  animation:liquid 7s ease-in-out infinite;
+  animation:
+    liquid 7s ease-in-out infinite;
 }
 
 @keyframes liquid{
   0%,55%{
-    transform:translate3d(-20%,0,0) rotate(22deg);
+    transform:
+      translate3d(-20%,0,0)
+      rotate(22deg);
   }
 
   100%{
-    transform:translate3d(190%,0,0) rotate(22deg);
+    transform:
+      translate3d(190%,0,0)
+      rotate(22deg);
   }
 }
 
@@ -363,17 +468,20 @@ body{
   content:"";
 
   position:absolute;
+
   left:10%;
   right:10%;
   top:0;
+
   height:1px;
 
-  background:linear-gradient(
-    90deg,
-    transparent,
-    rgba(255,255,255,.7),
-    transparent
-  );
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(255,255,255,.7),
+      transparent
+    );
 
   opacity:.55;
 }
@@ -388,16 +496,22 @@ body{
 
   padding:7px 11px;
 
-  border:1px solid rgba(255,255,255,.12);
+  border:
+    1px solid rgba(255,255,255,.12);
+
   border-radius:999px;
 
-  background:rgba(255,255,255,.035);
+  background:
+    rgba(255,255,255,.035);
 
   color:#aaa;
 
   font-size:9px;
   font-weight:800;
   letter-spacing:1.5px;
+
+  box-shadow:
+    0 0 20px rgba(255,255,255,.025);
 }
 
 .badge-dot{
@@ -405,13 +519,15 @@ body{
   height:6px;
 
   border-radius:50%;
+
   background:#fff;
 
   box-shadow:
     0 0 5px #fff,
     0 0 12px rgba(255,255,255,.7);
 
-  animation:pulse 1.8s ease-in-out infinite;
+  animation:
+    pulse 1.8s ease-in-out infinite;
 }
 
 @keyframes pulse{
@@ -427,11 +543,14 @@ body{
 
   margin-top:17px;
 
-  font-family:"Space Grotesk",sans-serif;
+  font-family:
+    "Space Grotesk",
+    sans-serif;
 
-  font-size:clamp(32px,9vw,49px);
+  font-size:
+    clamp(32px,9vw,49px);
+
   font-weight:700;
-
   line-height:.95;
   letter-spacing:-2.5px;
 
@@ -452,7 +571,8 @@ body{
 
   color:transparent;
 
-  animation:chrome 5s linear infinite;
+  animation:
+    chrome 5s linear infinite;
 }
 
 @keyframes chrome{
@@ -466,6 +586,7 @@ body{
   z-index:2;
 
   margin-top:13px;
+
   max-width:470px;
 
   color:#888;
@@ -482,26 +603,50 @@ body{
   display:flex;
   justify-content:center;
   align-items:center;
+
   flex-wrap:wrap;
 
   gap:7px;
+
   margin:15px 0;
+}
+
+.nav-group{
+  display:flex;
+  align-items:center;
+
+  border:
+    1px solid rgba(255,255,255,.1);
+
+  border-radius:14px;
+
+  background:
+    rgba(10,10,10,.75);
+
+  box-shadow:
+    0 8px 25px rgba(0,0,0,.2),
+    inset 0 1px rgba(255,255,255,.035);
+
+  overflow:hidden;
 }
 
 .nav button{
   position:relative;
   overflow:hidden;
 
-  padding:10px 12px;
+  padding:10px 13px;
 
-  border:1px solid rgba(255,255,255,.1);
+  border:0;
   border-radius:12px;
 
   color:#777;
 
-  background:rgba(15,15,15,.8);
+  background:
+    rgba(15,15,15,.8);
 
-  font:800 9px Inter;
+  font:
+    800 9px Inter;
+
   letter-spacing:.6px;
 
   cursor:pointer;
@@ -509,7 +654,6 @@ body{
   transition:
     transform .2s ease,
     color .2s ease,
-    border-color .2s ease,
     background .2s ease;
 }
 
@@ -517,6 +661,7 @@ body{
   content:"";
 
   position:absolute;
+
   top:0;
   left:-80%;
 
@@ -525,7 +670,8 @@ body{
 
   transform:skewX(-20deg);
 
-  background:rgba(255,255,255,.1);
+  background:
+    rgba(255,255,255,.1);
 
   transition:.45s;
 }
@@ -537,8 +683,6 @@ body{
 .nav button.active{
   color:#fff;
 
-  border-color:rgba(255,255,255,.23);
-
   background:
     linear-gradient(
       135deg,
@@ -547,12 +691,33 @@ body{
     );
 
   box-shadow:
-    0 5px 20px rgba(255,255,255,.045),
     inset 0 1px rgba(255,255,255,.07);
 }
 
 .nav button:active{
   transform:scale(.96);
+}
+
+.nav-divider{
+  width:1px;
+  height:25px;
+  flex:none;
+
+  background:
+    linear-gradient(
+      to bottom,
+      transparent,
+      rgba(255,255,255,.3),
+      transparent
+    );
+
+  box-shadow:
+    0 0 8px rgba(255,255,255,.08);
+}
+
+.nav-separate{
+  display:flex;
+  gap:7px;
 }
 
 /* =========================================================
@@ -592,7 +757,9 @@ body{
 
   padding:21px;
 
-  border:1px solid rgba(255,255,255,.11);
+  border:
+    1px solid rgba(255,255,255,.11);
+
   border-radius:22px;
 
   background:
@@ -607,33 +774,34 @@ body{
     0 20px 50px rgba(0,0,0,.45),
     inset 0 1px rgba(255,255,255,.055);
 
-  backdrop-filter:blur(11px);
-  -webkit-backdrop-filter:blur(11px);
-
-  margin-bottom:13px;
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
 }
 
 .card:before{
   content:"";
 
   position:absolute;
+
   top:0;
   left:-30%;
 
   width:28%;
   height:1px;
 
-  background:linear-gradient(
-    90deg,
-    transparent,
-    #fff,
-    transparent
-  );
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      #fff,
+      transparent
+    );
 
   box-shadow:
     0 0 10px rgba(255,255,255,.5);
 
-  animation:borderBeam 6s linear infinite;
+  animation:
+    borderBeam 6s linear infinite;
 }
 
 @keyframes borderBeam{
@@ -659,23 +827,29 @@ body{
 
   transform:skewX(-18deg);
 
-  background:linear-gradient(
-    90deg,
-    transparent,
-    rgba(255,255,255,.035),
-    transparent
-  );
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(255,255,255,.035),
+      transparent
+    );
 
-  animation:cardReflection 9s ease-in-out infinite;
+  animation:
+    cardReflection 9s ease-in-out infinite;
 }
 
 @keyframes cardReflection{
   0%,55%{
-    transform:translate3d(0,0,0) skewX(-18deg);
+    transform:
+      translate3d(0,0,0)
+      skewX(-18deg);
   }
 
   100%{
-    transform:translate3d(300%,0,0) skewX(-18deg);
+    transform:
+      translate3d(300%,0,0)
+      skewX(-18deg);
   }
 }
 
@@ -685,7 +859,10 @@ body{
 }
 
 .card-title{
-  font-family:"Space Grotesk",sans-serif;
+  font-family:
+    "Space Grotesk",
+    sans-serif;
+
   font-size:18px;
   font-weight:700;
 }
@@ -712,6 +889,7 @@ body{
 
   font-size:9px;
   font-weight:800;
+
   letter-spacing:.9px;
 
   text-transform:uppercase;
@@ -720,10 +898,11 @@ body{
 input,
 textarea{
   width:100%;
-
   outline:none;
 
-  border:1px solid rgba(255,255,255,.1);
+  border:
+    1px solid rgba(255,255,255,.1);
+
   border-radius:13px;
 
   padding:13px 14px;
@@ -737,7 +916,8 @@ textarea{
       rgba(0,0,0,.45)
     );
 
-  font:500 11px Inter;
+  font:
+    500 11px Inter;
 
   transition:
     border-color .2s ease,
@@ -757,7 +937,8 @@ textarea::placeholder{
 
 input:focus,
 textarea:focus{
-  border-color:rgba(255,255,255,.3);
+  border-color:
+    rgba(255,255,255,.3);
 
   background:
     linear-gradient(
@@ -767,8 +948,10 @@ textarea:focus{
     );
 
   box-shadow:
-    0 0 0 3px rgba(255,255,255,.025),
-    0 0 25px rgba(255,255,255,.025);
+    0 0 0 3px
+      rgba(255,255,255,.025),
+    0 0 25px
+      rgba(255,255,255,.025);
 }
 
 /* =========================================================
@@ -780,7 +963,6 @@ textarea:focus{
   overflow:hidden;
 
   width:100%;
-
   margin-top:11px;
 
   border:0;
@@ -802,13 +984,16 @@ textarea:focus{
 
   background-size:220% auto;
 
-  font:800 10px Inter;
+  font:
+    800 10px Inter;
+
   letter-spacing:.8px;
 
   cursor:pointer;
 
   box-shadow:
-    0 8px 25px rgba(255,255,255,.06);
+    0 8px 25px
+      rgba(255,255,255,.06);
 
   animation:
     buttonChrome 4s linear infinite;
@@ -828,6 +1013,7 @@ textarea:focus{
   content:"";
 
   position:absolute;
+
   top:-20%;
   left:-30%;
 
@@ -836,7 +1022,8 @@ textarea:focus{
 
   transform:rotate(20deg);
 
-  background:rgba(255,255,255,.55);
+  background:
+    rgba(255,255,255,.55);
 
   animation:
     buttonShine 3.5s ease-in-out infinite;
@@ -844,22 +1031,67 @@ textarea:focus{
 
 @keyframes buttonShine{
   0%,50%{
-    transform:translate3d(-100px,0,0) rotate(20deg);
+    transform:
+      translate3d(-100px,0,0)
+      rotate(20deg);
   }
 
   100%{
-    transform:translate3d(600px,0,0) rotate(20deg);
+    transform:
+      translate3d(600px,0,0)
+      rotate(20deg);
   }
 }
 
 .btn:active{
   transform:scale(.985);
+  filter:brightness(1.12);
 }
 
 .btn:disabled{
   opacity:.55;
   animation:none;
   cursor:not-allowed;
+}
+
+.btn-dark{
+  width:100%;
+  margin-top:9px;
+  padding:13px;
+
+  border:
+    1px solid rgba(255,255,255,.1);
+
+  border-radius:13px;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255,255,255,.035),
+      rgba(0,0,0,.5)
+    );
+
+  color:#aaa;
+
+  font:
+    800 10px Inter;
+
+  letter-spacing:.7px;
+
+  cursor:pointer;
+
+  transition:.2s ease;
+}
+
+.btn-dark:hover{
+  color:#fff;
+
+  border-color:
+    rgba(255,255,255,.2);
+}
+
+.btn-dark:active{
+  transform:scale(.985);
 }
 
 /* =========================================================
@@ -870,15 +1102,15 @@ textarea:focus{
   position:relative;
 
   height:1px;
-
   margin:21px 0;
 
-  background:linear-gradient(
-    90deg,
-    transparent,
-    rgba(255,255,255,.12),
-    transparent
-  );
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(255,255,255,.12),
+      transparent
+    );
 }
 
 .divider:after{
@@ -894,6 +1126,7 @@ textarea:focus{
   transform:translateX(-50%);
 
   background:#fff;
+
   opacity:.4;
 
   animation:
@@ -917,12 +1150,15 @@ textarea:focus{
   margin-top:13px;
   padding:12px;
 
-  border:1px solid rgba(255,255,255,.1);
+  border:
+    1px solid rgba(255,255,255,.1);
+
   border-radius:12px;
 
   background:#080808;
 
-  font:500 10px/1.6 monospace;
+  font:
+    500 10px/1.6 monospace;
 
   white-space:pre-wrap;
   word-break:break-word;
@@ -949,12 +1185,20 @@ textarea:focus{
 
 .result.ok{
   color:var(--green);
-  border-color:rgba(117,255,176,.22);
+
+  border-color:
+    rgba(117,255,176,.22);
+
+  box-shadow:
+    0 0 22px
+      rgba(117,255,176,.025);
 }
 
 .result.error{
   color:var(--red);
-  border-color:rgba(255,102,102,.22);
+
+  border-color:
+    rgba(255,102,102,.22);
 }
 
 .result.wait{
@@ -965,182 +1209,151 @@ textarea:focus{
    TEMP MAIL
 ========================================================= */
 
-.mail-display{
-  margin-top:17px;
+.current-email{
+  margin-top:18px;
+  padding:16px;
 
-  padding:15px;
+  border:
+    1px solid rgba(255,255,255,.1);
 
-  border:1px solid rgba(255,255,255,.1);
-  border-radius:15px;
+  border-radius:17px;
 
   background:
     linear-gradient(
       135deg,
-      rgba(255,255,255,.035),
-      rgba(0,0,0,.35)
+      rgba(255,255,255,.025),
+      rgba(0,0,0,.4)
     );
+
+  box-shadow:
+    inset 0 1px
+      rgba(255,255,255,.025);
 }
 
-.mail-label{
-  color:#666;
+.current-label{
+  color:#777;
 
-  font-size:8px;
+  font-size:9px;
   font-weight:800;
+
   letter-spacing:1.2px;
 }
 
-.mail-address{
-  margin-top:9px;
+.email-value{
+  margin-top:12px;
 
   color:#eee;
 
-  font:600 12px/1.5 monospace;
+  font:
+    700 16px/1.4 monospace;
 
   word-break:break-all;
+
+  text-shadow:
+    0 0 15px
+      rgba(255,255,255,.08);
 }
 
-.mail-status{
+.status-row{
   display:flex;
   align-items:center;
-  gap:6px;
+  gap:8px;
 
-  margin-top:9px;
+  margin-top:14px;
 
   color:#777;
 
-  font:700 8px monospace;
+  font:
+    800 9px Inter;
+
+  letter-spacing:.8px;
 }
 
-.mail-dot{
-  width:6px;
-  height:6px;
+.status-dot{
+  width:7px;
+  height:7px;
 
   border-radius:50%;
 
-  background:#555;
-}
-
-.mail-dot.active{
-  background:var(--green);
+  background:#888;
 
   box-shadow:
-    0 0 8px var(--green);
+    0 0 7px
+      rgba(255,255,255,.2);
+
+  animation:
+    statusPulse 1.7s ease-in-out infinite;
 }
 
-.mail-actions{
+.status-dot.active{
+  background:#75ffb0;
+
+  box-shadow:
+    0 0 8px
+      rgba(117,255,176,.7);
+}
+
+@keyframes statusPulse{
+  50%{
+    transform:scale(1.4);
+    opacity:.55;
+  }
+}
+
+.action-row{
   display:grid;
 
   grid-template-columns:
     1fr 1fr;
 
-  gap:7px;
+  gap:10px;
 
-  margin-top:11px;
+  margin-top:17px;
 }
 
-.mail-btn{
-  position:relative;
-  overflow:hidden;
+.action{
+  padding:13px 8px;
 
-  padding:12px 8px;
+  border:
+    1px solid rgba(255,255,255,.1);
 
-  border:1px solid rgba(255,255,255,.1);
-  border-radius:11px;
+  border-radius:13px;
 
-  background:#111;
+  background:#090909;
 
   color:#aaa;
 
-  font:800 8px Inter;
+  font:
+    800 10px Inter;
 
   cursor:pointer;
 
-  transition:.2s;
+  transition:.2s ease;
 }
 
-.mail-btn:hover{
-  border-color:rgba(255,255,255,.25);
+.action:hover{
   color:#fff;
+
+  border-color:
+    rgba(255,255,255,.2);
 }
 
-.mail-btn.primary{
+.action:active{
+  transform:scale(.97);
+}
+
+.action.primary{
   color:#050505;
 
   background:
     linear-gradient(
       110deg,
-      #777,
+      #888,
       #fff,
-      #999,
-      #fff,
-      #777
+      #aaa
     );
 
-  background-size:220%;
-
-  animation:buttonChrome 4s linear infinite;
-}
-
-.mail-btn.danger{
-  color:#ff7777;
-}
-
-.api-box{
-  margin-top:14px;
-
-  overflow:hidden;
-
-  border:1px solid rgba(255,255,255,.08);
-  border-radius:12px;
-
-  background:#070707;
-}
-
-.api-head{
-  padding:10px 12px;
-
-  border-bottom:1px solid rgba(255,255,255,.08);
-
-  color:#666;
-
-  font:800 8px monospace;
-}
-
-.api-row{
-  display:grid;
-
-  grid-template-columns:95px 1fr;
-
-  border-bottom:1px solid rgba(255,255,255,.06);
-}
-
-.api-row:last-child{
-  border-bottom:0;
-}
-
-.api-key{
-  padding:10px;
-
-  color:#777;
-
-  font:700 9px monospace;
-
-  background:#0a0a0a;
-}
-
-.api-value{
-  padding:10px;
-
-  color:#bbb;
-
-  font:500 9px monospace;
-
-  word-break:break-all;
-}
-
-.api-value a{
-  color:#7daaff;
-  text-decoration:none;
+  border:0;
 }
 
 /* =========================================================
@@ -1150,53 +1363,54 @@ textarea:focus{
 .saved-list{
   display:flex;
   flex-direction:column;
-
-  gap:9px;
-
-  margin-top:16px;
+  gap:10px;
+  margin-top:18px;
 }
 
 .saved-empty{
-  padding:35px 15px;
+  padding:30px 15px;
 
   text-align:center;
 
-  border:1px solid rgba(255,255,255,.08);
-  border-radius:14px;
+  border:
+    1px dashed rgba(255,255,255,.1);
 
-  background:rgba(255,255,255,.015);
+  border-radius:16px;
 
-  color:#666;
-}
+  color:#555;
 
-.saved-empty .icon{
-  font-size:30px;
-  margin-bottom:10px;
-}
-
-.saved-empty p{
-  font-size:9px;
-  line-height:1.7;
+  font:
+    500 10px/1.7 monospace;
 }
 
 .saved-item{
   position:relative;
   overflow:hidden;
 
-  padding:14px;
+  padding:15px;
 
-  border:1px solid rgba(255,255,255,.1);
-  border-radius:15px;
+  border:
+    1px solid rgba(255,255,255,.09);
+
+  border-radius:16px;
 
   background:
     linear-gradient(
       135deg,
-      rgba(255,255,255,.04),
-      rgba(0,0,0,.35)
+      rgba(255,255,255,.035),
+      rgba(0,0,0,.4)
     );
 
-  box-shadow:
-    inset 0 1px rgba(255,255,255,.035);
+  transition:
+    border-color .2s ease,
+    transform .2s ease;
+}
+
+.saved-item:hover{
+  border-color:
+    rgba(255,255,255,.18);
+
+  transform:translateY(-1px);
 }
 
 .saved-item:before{
@@ -1204,18 +1418,19 @@ textarea:focus{
 
   position:absolute;
 
-  left:-30%;
-  top:0;
-
-  width:25%;
+  width:70px;
   height:1px;
 
-  background:linear-gradient(
-    90deg,
-    transparent,
-    #fff,
-    transparent
-  );
+  top:0;
+  left:-80px;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      #fff,
+      transparent
+    );
 
   animation:
     savedBeam 5s linear infinite;
@@ -1223,194 +1438,89 @@ textarea:focus{
 
 @keyframes savedBeam{
   to{
-    transform:translateX(600%);
+    transform:translateX(480px);
   }
 }
 
-.saved-top{
-  display:flex;
-  align-items:flex-start;
-  justify-content:space-between;
-
-  gap:10px;
-}
-
 .saved-email{
-  min-width:0;
-}
-
-.saved-email strong{
-  display:block;
-
   color:#eee;
 
-  font:700 11px monospace;
+  font:
+    700 12px/1.5 monospace;
 
   word-break:break-all;
-}
-
-.saved-email small{
-  display:block;
-
-  margin-top:5px;
-
-  color:#5e5e5e;
-
-  font-size:8px;
-}
-
-.saved-badge{
-  flex-shrink:0;
-
-  padding:5px 7px;
-
-  border:1px solid rgba(117,255,176,.2);
-  border-radius:7px;
-
-  color:#75ffb0;
-
-  font:800 7px monospace;
 }
 
 .saved-link{
-  margin-top:10px;
-
-  padding:9px;
-
-  border:1px solid rgba(255,255,255,.07);
-  border-radius:9px;
-
-  background:#080808;
+  margin-top:7px;
 
   color:#666;
 
-  font:500 8px/1.5 monospace;
+  font:
+    500 8px/1.5 monospace;
 
   word-break:break-all;
-}
-
-.saved-link span{
-  color:#777;
 }
 
 .saved-actions{
   display:grid;
 
   grid-template-columns:
-    1.2fr 1fr 1fr;
+    1fr 1fr 1fr;
 
-  gap:6px;
+  gap:7px;
 
-  margin-top:9px;
+  margin-top:12px;
 }
 
-.saved-action{
-  padding:9px 5px;
+.saved-btn{
+  padding:10px 5px;
 
-  border:1px solid rgba(255,255,255,.09);
-  border-radius:9px;
+  border:
+    1px solid rgba(255,255,255,.08);
 
-  background:#101010;
+  border-radius:10px;
 
-  color:#999;
+  background:#090909;
 
-  font:800 8px Inter;
+  color:#888;
+
+  font:
+    800 8px Inter;
 
   cursor:pointer;
 
-  transition:.18s;
+  transition:.2s ease;
 }
 
-.saved-action:hover{
+.saved-btn:hover{
   color:#fff;
-  border-color:rgba(255,255,255,.2);
+
+  border-color:
+    rgba(255,255,255,.2);
 }
 
-.saved-action.gmail-action{
-  color:#ff8585;
-}
-
-.saved-action.delete-action{
-  color:#ff6868;
-}
-
-.saved-count{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-
-  min-width:20px;
-  height:20px;
-
-  padding:0 6px;
-
-  border:1px solid rgba(255,255,255,.12);
-  border-radius:999px;
-
-  color:#aaa;
-
-  font:800 8px monospace;
-}
-
-/* =========================================================
-   TUTORIAL
-========================================================= */
-
-.video{
-  position:relative;
-  overflow:hidden;
-
-  margin-top:17px;
-
-  border:1px solid rgba(255,255,255,.11);
-  border-radius:16px;
-
-  background:#000;
-
-  aspect-ratio:16/9;
-
-  box-shadow:
-    0 15px 35px rgba(0,0,0,.35);
-}
-
-.video:after{
-  content:"";
-
-  position:absolute;
-  inset:0;
-
-  pointer-events:none;
+.saved-btn.open{
+  color:#050505;
 
   background:
     linear-gradient(
       110deg,
-      transparent 40%,
-      rgba(255,255,255,.04),
-      transparent 60%
+      #888,
+      #fff,
+      #aaa
     );
 
-  animation:
-    videoShine 6s ease-in-out infinite;
+  border:0;
 }
 
-@keyframes videoShine{
-  from{
-    transform:translate3d(-100%,0,0);
-  }
-
-  to{
-    transform:translate3d(100%,0,0);
-  }
+.saved-btn.delete:hover{
+  color:#ff7777;
 }
 
-.video video{
-  display:block;
-
-  width:100%;
-  height:100%;
-
-  object-fit:cover;
-}
+/* =========================================================
+   INFO BOX
+========================================================= */
 
 .info{
   position:relative;
@@ -1419,10 +1529,13 @@ textarea:focus{
   margin-top:12px;
   padding:14px;
 
-  border:1px solid rgba(255,255,255,.08);
+  border:
+    1px solid rgba(255,255,255,.08);
+
   border-radius:14px;
 
-  background:rgba(255,255,255,.018);
+  background:
+    rgba(255,255,255,.018);
 }
 
 .info:after{
@@ -1436,12 +1549,13 @@ textarea:focus{
   left:-90px;
   top:0;
 
-  background:linear-gradient(
-    90deg,
-    transparent,
-    rgba(255,255,255,.5),
-    transparent
-  );
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(255,255,255,.5),
+      transparent
+    );
 
   animation:
     infoBeam 7s linear infinite;
@@ -1478,11 +1592,14 @@ textarea:focus{
 
   z-index:50;
 
-  max-width:calc(100% - 30px);
+  max-width:
+    calc(100% - 30px);
 
   padding:10px 15px;
 
-  border:1px solid rgba(255,255,255,.12);
+  border:
+    1px solid rgba(255,255,255,.12);
+
   border-radius:999px;
 
   background:#111;
@@ -1498,7 +1615,8 @@ textarea:focus{
     translate3d(-50%,20px,0);
 
   box-shadow:
-    0 12px 35px rgba(0,0,0,.5);
+    0 12px 35px
+      rgba(0,0,0,.5);
 
   transition:
     opacity .25s ease,
@@ -1513,32 +1631,17 @@ textarea:focus{
 }
 
 /* =========================================================
-   FOOTER
-========================================================= */
-
-.footer{
-  padding:12px;
-
-  text-align:center;
-
-  color:#444;
-
-  font:700 8px monospace;
-
-  letter-spacing:1px;
-}
-
-/* =========================================================
    LOW FX
 ========================================================= */
 
 .lowfx .ambient{
-  filter:blur(30px);
-  opacity:.2;
+  filter:blur(25px);
+  opacity:.16;
 }
 
 .lowfx .grid{
   opacity:.018;
+  animation:none;
 }
 
 .lowfx .meteor{
@@ -1549,14 +1652,22 @@ textarea:focus{
   display:none;
 }
 
+.lowfx .stars .star:nth-child(n+18){
+  display:none;
+}
+
 .lowfx .hero,
 .lowfx .card{
-  backdrop-filter:blur(6px);
-  -webkit-backdrop-filter:blur(6px);
+  backdrop-filter:blur(5px);
+  -webkit-backdrop-filter:blur(5px);
 }
 
 .lowfx .scanline{
-  opacity:.08;
+  opacity:.06;
+}
+
+.lowfx .light-beam.two{
+  display:none;
 }
 
 /* =========================================================
@@ -1594,140 +1705,148 @@ textarea:focus{
     gap:6px;
   }
 
+  .nav-group{
+    width:auto;
+  }
+
   .nav button{
-    padding:10px 9px;
+    padding:
+      10px 11px;
+
     font-size:8px;
   }
 
-  .saved-actions{
-    grid-template-columns:
-      1fr 1fr 1fr;
+  .nav-separate{
+    gap:6px;
+  }
+
+  .email-value{
+    font-size:14px;
   }
 }
 
-@media(max-width:380px){
+/* =========================================================
+   REDUCE MOTION
+========================================================= */
 
-  .nav button{
-    padding:9px 7px;
-    font-size:7px;
+@media(prefers-reduced-motion:reduce){
+
+  *,
+  *:before,
+  *:after{
+    animation-duration:.01ms !important;
+    animation-iteration-count:1 !important;
+    transition-duration:.01ms !important;
   }
 
-  .api-row{
-    grid-template-columns:78px 1fr;
-  }
 }
 </style>
 </head>
 
 <body>
 
-<!-- =======================================================
-     BACKGROUND
-======================================================= -->
+<!-- BACKGROUND -->
 
 <div class="bg">
 
   <div class="ambient a"></div>
   <div class="ambient b"></div>
+  <div class="ambient c"></div>
 
   <div class="grid"></div>
+
   <div class="scanline"></div>
+
   <div class="light-beam"></div>
+  <div class="light-beam two"></div>
 
   <div
     class="particles"
     id="particles">
   </div>
 
+  <div
+    class="stars"
+    id="stars">
+  </div>
+
   <div class="meteor m1"></div>
   <div class="meteor m2"></div>
   <div class="meteor m3"></div>
+  <div class="meteor m4"></div>
 
 </div>
 
-
-<!-- =======================================================
-     APP
-======================================================= -->
+<!-- APP -->
 
 <main class="app">
 
-
-  <!-- =====================================================
-       HERO
-  ====================================================== -->
+  <!-- HERO -->
 
   <section class="hero">
 
     <div class="badge">
-
       <span class="badge-dot"></span>
-
       RYuze SYSTEM
-
     </div>
-
 
     <h1>
       Alight Motion Premium
     </h1>
 
-
     <p>
-      Dapatkan Premium alight Motion 1 Tahun Secara FREE Di Website Ini
+      Dapatkan Premium alight Motion 1 Tahun
+      Secara FREE Di Website Ini
     </p>
 
   </section>
 
-
-  <!-- =====================================================
-       NAVIGATION
-  ====================================================== -->
+  <!-- NAV -->
 
   <nav class="nav">
 
-    <button
-      class="active"
-      data-page="premium">
+    <div class="nav-separate">
 
-      ✦ AM PREMIUM
+      <button
+        class="active"
+        data-page="premium">
+        ✦ AM PREMIUM
+      </button>
 
-    </button>
+    </div>
 
+    <div class="nav-group">
 
-    <button
-      data-page="tempmail">
+      <button
+        data-page="tempmail">
+        ✉ TEMP MAIL
+      </button>
 
-      ✉ TEMP MAIL
+      <span class="nav-divider"></span>
 
-    </button>
+      <button
+        data-page="saved">
+        ♡ SAVED GMAIL
+      </button>
 
+    </div>
 
-    <button
-      data-page="saved">
+    <div class="nav-separate">
 
-      ♡ SAVED GMAIL
+      <!-- TETAP ADA -->
+      <button
+        data-page="tutorial">
+        ? CARA PAKAI
+      </button>
 
-    </button>
+      <button
+        data-page="about">
+        ◉ ABOUT
+      </button>
 
-
-    <button
-      data-page="tutorial">
-
-      ? CARA PAKAI
-
-    </button>
-
-
-    <button
-      data-page="about">
-
-      ◉ ABOUT
-
-    </button>
+    </div>
 
   </nav>
-
 
   <!-- =====================================================
        AM PREMIUM
@@ -1743,20 +1862,16 @@ textarea:focus{
         Alight Motion Premium
       </div>
 
-
       <div class="card-desc">
-
-        Kirim Link Verifikasi lalu masukkan link verifikasi
-        yang diterima pada email kamu. Tutorial lebih lanjut
-        ada di menu "CARA PAKAI".
-
+        Kirim Link Verifikasi lalu masukkan link
+        verifikasi yang diterima pada email kamu.
+        Tutorial lebih lanjut ada di menu
+        "CARA PAKAI".
       </div>
-
 
       <label class="label">
         Account Email
       </label>
-
 
       <input
         id="email"
@@ -1764,7 +1879,6 @@ textarea:focus{
         autocomplete="email"
         placeholder="user@email.com"
       >
-
 
       <button
         class="btn"
@@ -1774,20 +1888,16 @@ textarea:focus{
 
       </button>
 
-
       <div class="divider"></div>
-
 
       <label class="label">
         Verification Link
       </label>
 
-
       <textarea
         id="link"
         placeholder="Paste verification link di sini..."
       ></textarea>
-
 
       <button
         class="btn"
@@ -1797,7 +1907,6 @@ textarea:focus{
 
       </button>
 
-
       <div
         class="result"
         id="result">
@@ -1806,7 +1915,6 @@ textarea:focus{
     </div>
 
   </section>
-
 
   <!-- =====================================================
        TEMP MAIL
@@ -1822,15 +1930,11 @@ textarea:focus{
         Temporary Mail
       </div>
 
-
       <div class="card-desc">
-
         Buat alamat email temporary secara otomatis.
         Email yang berhasil dibuat akan tersimpan
         otomatis di menu "SAVED GMAIL".
-
       </div>
-
 
       <button
         class="btn"
@@ -1840,54 +1944,46 @@ textarea:focus{
 
       </button>
 
+      <div class="current-email">
 
-      <div
-        class="mail-display"
-        id="mailDisplay">
-
-        <div class="mail-label">
+        <div class="current-label">
           CURRENT EMAIL
         </div>
 
-
         <div
-          class="mail-address"
-          id="mailAddress">
+          class="email-value"
+          id="currentEmail">
 
           Belum ada email
 
         </div>
 
-
-        <div class="mail-status">
+        <div class="status-row">
 
           <span
-            class="mail-dot"
-            id="mailDot">
+            class="status-dot"
+            id="statusDot">
           </span>
 
-          <span id="mailStatus">
+          <span id="statusText">
             WAITING
-
           </span>
 
         </div>
 
-
-        <div class="mail-actions">
+        <div class="action-row">
 
           <button
-            class="mail-btn"
-            onclick="copyCurrentMail()">
+            class="action"
+            id="copyEmailBtn">
 
             COPY
 
           </button>
 
-
           <button
-            class="mail-btn primary"
-            onclick="openCurrentGmail()">
+            class="action primary"
+            id="openGmailBtn">
 
             OPEN GMAIL
 
@@ -1897,106 +1993,14 @@ textarea:focus{
 
       </div>
 
-
-      <!-- API DATA -->
-
-      <div class="api-box">
-
-        <div class="api-head">
-          EMAIL GENERATOR API
-        </div>
-
-
-        <div class="api-row">
-
-          <div class="api-key">
-            STATUS
-          </div>
-
-          <div
-            class="api-value"
-            id="mailApiStatus">
-
-            —
-
-          </div>
-
-        </div>
-
-
-        <div class="api-row">
-
-          <div class="api-key">
-            CREATOR
-          </div>
-
-          <div
-            class="api-value"
-            id="mailCreator">
-
-            —
-
-          </div>
-
-        </div>
-
-
-        <div class="api-row">
-
-          <div class="api-key">
-            USERNAME
-          </div>
-
-          <div
-            class="api-value"
-            id="mailUsername">
-
-            —
-
-          </div>
-
-        </div>
-
-
-        <div class="api-row">
-
-          <div class="api-key">
-            DOMAIN
-          </div>
-
-          <div
-            class="api-value"
-            id="mailDomain">
-
-            —
-
-          </div>
-
-        </div>
-
-
-        <div class="api-row">
-
-          <div class="api-key">
-            INBOX LINK
-          </div>
-
-          <div
-            class="api-value"
-            id="mailInbox">
-
-            —
-
-          </div>
-
-        </div>
-
+      <div
+        class="result"
+        id="mailResult">
       </div>
 
     </div>
 
   </section>
-
 
   <!-- =====================================================
        SAVED GMAIL
@@ -2008,148 +2012,36 @@ textarea:focus{
 
     <div class="card">
 
-      <div
-        style="
-          display:flex;
-          align-items:center;
-          justify-content:space-between;
-          gap:10px;
-        "
-      >
-
-        <div class="card-title">
-          Saved Gmail
-        </div>
-
-
-        <span
-          class="saved-count"
-          id="savedCount">
-
-          0
-
-        </span>
-
+      <div class="card-title">
+        Saved Gmail
       </div>
-
 
       <div class="card-desc">
-
-        Semua email yang pernah kamu generate
-        akan otomatis tersimpan di sini.
-        Link inbox mengikuti link yang diberikan
-        oleh generator.
-
+        Semua email yang berhasil digenerate akan
+        tersimpan otomatis di sini bersama link
+        generator email-nya.
       </div>
-
 
       <div
         class="saved-list"
         id="savedList">
-
-        <div class="saved-empty">
-
-          <div class="icon">
-            ✉
-          </div>
-
-          <p>
-            Belum ada email tersimpan.<br>
-            Generate email dari menu TEMP MAIL.
-          </p>
-
-        </div>
-
       </div>
 
     </div>
 
   </section>
 
-
   <!-- =====================================================
-       TUTORIAL
+       CARA PAKAI
+       
+       MENU TETAP ADA.
+       ISI DIHAPUS SESUAI REQUEST.
   ====================================================== -->
 
   <section
     class="page"
     id="tutorial">
-
-    <div class="card">
-
-      <div class="card-title">
-        Cara Pakai
-      </div>
-
-
-      <div class="card-desc">
-
-        Ikuti tutorial berikut untuk mengetahui
-        langkah penggunaan sistem.
-
-      </div>
-
-
-      <div class="video">
-
-        <video
-          controls
-          playsinline
-          preload="metadata"
-          src="https://files.catbox.moe/dgp6k5.mp4">
-        </video>
-
-      </div>
-
-
-      <div class="info">
-
-        <h3>
-          STEP 01 — SEND
-        </h3>
-
-        <p>
-          Masukkan email akun kamu kemudian tekan
-          tombol Send Magic Link.
-        </p>
-
-      </div>
-
-
-      <div class="info">
-
-        <h3>
-          STEP 02 — VERIFY
-        </h3>
-
-        <p>
-          Buka link verifikasi yang kamu terima,
-          lalu masukkan link tersebut ke kolom
-          Verification Link.
-        </p>
-
-      </div>
-
-
-      <div class="info">
-
-        <h3>
-          STEP 03 — TEMP MAIL
-        </h3>
-
-        <p>
-          Jika membutuhkan alamat temporary,
-          buka menu TEMP MAIL lalu tekan
-          Generate Email. Email tersebut otomatis
-          masuk ke menu SAVED GMAIL.
-        </p>
-
-      </div>
-
-    </div>
-
   </section>
-
 
   <!-- =====================================================
        ABOUT
@@ -2165,14 +2057,10 @@ textarea:focus{
         About Ryuze
       </div>
 
-
       <div class="card-desc">
-
         AM Premium Verification dengan interface
         futuristic dan optimized mobile.
-
       </div>
-
 
       <div class="info">
 
@@ -2181,12 +2069,25 @@ textarea:focus{
         </h3>
 
         <p>
-          Animasi menggunakan transform dan opacity
-          sebanyak mungkin agar rendering tetap ringan.
+          Efek visual menggunakan transform dan
+          opacity sebanyak mungkin agar rendering
+          tetap ringan.
         </p>
 
       </div>
 
+      <div class="info">
+
+        <h3>
+          ✉ TEMP MAIL
+        </h3>
+
+        <p>
+          Email temporary yang berhasil dibuat
+          otomatis dicatat pada menu Saved Gmail.
+        </p>
+
+      </div>
 
       <div class="info">
 
@@ -2201,43 +2102,23 @@ textarea:focus{
 
       </div>
 
-
-      <div class="info">
-
-        <h3>
-          ✉ TEMP MAIL
-        </h3>
-
-        <p>
-          Temporary email dibuat menggunakan
-          generator API dan data email disimpan
-          secara lokal pada browser.
-        </p>
-
-      </div>
-
     </div>
 
   </section>
 
-
-  <div class="footer">
-    RYuze SYSTEM • AM PREMIUM • TEMP MAIL
-  </div>
-
 </main>
 
+<!-- TOAST -->
 
 <div
   class="toast"
   id="toast">
 </div>
 
-
 <script>
 
 /* =========================================================
-   AM PREMIUM API
+   API AM PREMIUM
 ========================================================= */
 
 const COOKIE_API =
@@ -2249,17 +2130,15 @@ const SEND_API =
 const VERIFY_API =
   "https://am.yappi.my.id/api/verify";
 
-
 /* =========================================================
    TEMP MAIL API
 ========================================================= */
 
-const MAIL_API =
+const TEMPMAIL_API =
   "https://albyoffc.my.id/tools/emailgen";
 
-const MAIL_API_KEY =
+const TEMPMAIL_KEY =
   "albymd-1cd3644";
-
 
 /* =========================================================
    ELEMENTS
@@ -2283,13 +2162,40 @@ const result =
 const toast =
   document.getElementById("toast");
 
+const generateBtn =
+  document.getElementById("generateBtn");
+
+const currentEmail =
+  document.getElementById("currentEmail");
+
+const statusDot =
+  document.getElementById("statusDot");
+
+const statusText =
+  document.getElementById("statusText");
+
+const copyEmailBtn =
+  document.getElementById("copyEmailBtn");
+
+const openGmailBtn =
+  document.getElementById("openGmailBtn");
+
+const mailResult =
+  document.getElementById("mailResult");
+
+const savedList =
+  document.getElementById("savedList");
 
 /* =========================================================
    CURRENT MAIL
 ========================================================= */
 
-let currentMail = null;
-
+let currentMail =
+  JSON.parse(
+    localStorage.getItem(
+      "ryuze_current_mail"
+    ) || "null"
+  );
 
 /* =========================================================
    PARTICLES
@@ -2298,31 +2204,68 @@ let currentMail = null;
 const particleBox =
   document.getElementById("particles");
 
+const starBox =
+  document.getElementById("stars");
+
+const mobile =
+  window.innerWidth < 600;
+
 const particleCount =
-  window.innerWidth < 600 ? 18 : 28;
+  mobile ? 24 : 40;
 
 for(let i=0;i<particleCount;i++){
 
   const p =
     document.createElement("i");
 
-  p.className="particle";
+  p.className =
+    "particle";
 
   p.style.left =
     Math.random()*100+"%";
 
   p.style.animationDelay =
-    (-Math.random()*8)+"s";
+    (-Math.random()*10)+"s";
 
   p.style.animationDuration =
-    (5+Math.random()*6)+"s";
+    (6+Math.random()*8)+"s";
 
   p.style.opacity =
-    (.12+Math.random()*.25);
+    (.08+Math.random()*.25);
 
   particleBox.appendChild(p);
 }
 
+/* stars */
+
+const starCount =
+  mobile ? 20 : 34;
+
+for(let i=0;i<starCount;i++){
+
+  const s =
+    document.createElement("i");
+
+  s.className =
+    "star" +
+    (Math.random()>.82
+      ? " big"
+      : "");
+
+  s.style.left =
+    Math.random()*100+"%";
+
+  s.style.top =
+    Math.random()*100+"%";
+
+  s.style.animationDelay =
+    (-Math.random()*4)+"s";
+
+  s.style.animationDuration =
+    (2+Math.random()*3)+"s";
+
+  starBox.appendChild(s);
+}
 
 /* =========================================================
    LOW FX
@@ -2348,7 +2291,6 @@ if(weakDevice){
 
 }
 
-
 /* =========================================================
    TOAST
 ========================================================= */
@@ -2369,17 +2311,14 @@ function showToast(text){
   );
 
   toastTimer =
-    setTimeout(
-      ()=>{
-        toast.classList.remove(
-          "show"
-        );
-      },
-      2200
-    );
+    setTimeout(()=>{
 
+      toast.classList.remove(
+        "show"
+      );
+
+    },2200);
 }
-
 
 /* =========================================================
    RESULT
@@ -2395,9 +2334,60 @@ function setResult(
 
   result.className =
     "result show "+type;
-
 }
 
+function setMailResult(
+  text,
+  type="wait"
+){
+
+  mailResult.textContent =
+    text;
+
+  mailResult.className =
+    "result show "+type;
+}
+
+/* =========================================================
+   COPY
+========================================================= */
+
+async function copyText(text){
+
+  try{
+
+    await navigator.clipboard.writeText(
+      text
+    );
+
+    showToast(
+      "Berhasil disalin"
+    );
+
+  }catch{
+
+    const area =
+      document.createElement("textarea");
+
+    area.value =
+      text;
+
+    document.body.appendChild(area);
+
+    area.select();
+
+    document.execCommand(
+      "copy"
+    );
+
+    area.remove();
+
+    showToast(
+      "Berhasil disalin"
+    );
+
+  }
+}
 
 /* =========================================================
    COOKIE
@@ -2422,12 +2412,10 @@ async function getCookie(){
   }
 
   return await response.json();
-
 }
 
-
 /* =========================================================
-   SEND
+   SEND MAGIC LINK
 ========================================================= */
 
 sendBtn.addEventListener(
@@ -2445,10 +2433,10 @@ sendBtn.addEventListener(
       );
 
       return;
-
     }
 
-    sendBtn.disabled=true;
+    sendBtn.disabled =
+      true;
 
     sendBtn.textContent =
       "PROCESSING...";
@@ -2490,9 +2478,7 @@ sendBtn.addEventListener(
       const data =
         await response
           .json()
-          .catch(
-            ()=>({})
-          );
+          .catch(()=>({}));
 
       if(!response.ok){
 
@@ -2524,7 +2510,8 @@ sendBtn.addEventListener(
 
     }finally{
 
-      sendBtn.disabled=false;
+      sendBtn.disabled =
+        false;
 
       sendBtn.textContent =
         "SEND MAGIC LINK";
@@ -2533,7 +2520,6 @@ sendBtn.addEventListener(
 
   }
 );
-
 
 /* =========================================================
    VERIFY
@@ -2557,7 +2543,6 @@ verifyBtn.addEventListener(
       );
 
       return;
-
     }
 
     if(!link){
@@ -2568,10 +2553,10 @@ verifyBtn.addEventListener(
       );
 
       return;
-
     }
 
-    verifyBtn.disabled=true;
+    verifyBtn.disabled =
+      true;
 
     verifyBtn.textContent =
       "VERIFYING...";
@@ -2614,9 +2599,7 @@ verifyBtn.addEventListener(
       const data =
         await response
           .json()
-          .catch(
-            ()=>({})
-          );
+          .catch(()=>({}));
 
       if(!response.ok){
 
@@ -2648,7 +2631,8 @@ verifyBtn.addEventListener(
 
     }finally{
 
-      verifyBtn.disabled=false;
+      verifyBtn.disabled =
+        false;
 
       verifyBtn.textContent =
         "VERIFY ACCOUNT";
@@ -2658,22 +2642,17 @@ verifyBtn.addEventListener(
   }
 );
 
-
 /* =========================================================
-   TEMP MAIL STORAGE
+   SAVED EMAIL STORAGE
 ========================================================= */
 
-const MAIL_STORAGE =
-  "ryuze_saved_gmail_v1";
-
-
-function getSavedMails(){
+function getSaved(){
 
   try{
 
     return JSON.parse(
       localStorage.getItem(
-        MAIL_STORAGE
+        "ryuze_saved_gmail"
       ) || "[]"
     );
 
@@ -2685,334 +2664,162 @@ function getSavedMails(){
 
 }
 
+function saveEmail(data){
 
-function saveMail(data){
+  let saved =
+    getSaved();
 
-  let list =
-    getSavedMails();
-
-  /*
-    Jangan menggunakan expiry timer.
-    Email tetap disimpan di browser.
-  */
-
-  list =
-    list.filter(
-      x =>
-        x.email !== data.email
+  saved =
+    saved.filter(
+      item =>
+        item.email !== data.email
     );
 
-  list.unshift({
-
-    email:
-      data.email || "",
-
-    username:
-      data.username || "",
-
-    domain:
-      data.domain || "",
-
-    inbox_url:
-      data.inbox_url || "",
-
-    creator:
-      data.creator || "",
-
-    createdAt:
+  saved.unshift({
+    email:data.email,
+    username:data.username || "",
+    domain:data.domain || "",
+    inbox_url:data.inbox_url || "",
+    created_at:
+      data.created_at ||
       Date.now()
-
   });
 
-  /*
-    Batasi jumlah data lokal.
-  */
-
-  list =
-    list.slice(0,50);
+  saved =
+    saved.slice(0,100);
 
   localStorage.setItem(
-    MAIL_STORAGE,
-    JSON.stringify(list)
+    "ryuze_saved_gmail",
+    JSON.stringify(saved)
   );
 
-  renderSavedMails();
+  renderSaved();
 
 }
 
+function deleteSaved(email){
+
+  const saved =
+    getSaved()
+      .filter(
+        item =>
+          item.email !== email
+      );
+
+  localStorage.setItem(
+    "ryuze_saved_gmail",
+    JSON.stringify(saved)
+  );
+
+  renderSaved();
+
+  showToast(
+    "Email dihapus dari Saved Gmail"
+  );
+
+}
 
 /* =========================================================
-   GENERATE TEMP MAIL
+   RENDER SAVED
 ========================================================= */
 
-const generateBtn =
-  document.getElementById(
-    "generateBtn"
-  );
+function renderSaved(){
 
+  const saved =
+    getSaved();
 
-generateBtn.addEventListener(
-  "click",
-  generateMail
-);
+  if(!saved.length){
 
+    savedList.innerHTML = `
+      <div class="saved-empty">
+        BELUM ADA EMAIL TERSIMPAN
+        <br><br>
+        Generate email dari menu
+        TEMP MAIL terlebih dahulu.
+      </div>
+    `;
 
-async function generateMail(){
-
-  generateBtn.disabled=true;
-
-  generateBtn.textContent =
-    "⏳ GENERATING...";
-
-
-  document.getElementById(
-    "mailStatus"
-  ).textContent =
-    "GENERATING";
-
-
-  document.getElementById(
-    "mailDot"
-  ).classList.remove(
-    "active"
-  );
-
-
-  try{
-
-    const response =
-      await fetch(
-        MAIL_API,
-        {
-          method:"GET",
-
-          headers:{
-            "x-api-key":
-              MAIL_API_KEY
-          }
-        }
-      );
-
-
-    if(!response.ok){
-
-      throw new Error(
-        "HTTP "+response.status
-      );
-
-    }
-
-
-    const json =
-      await response.json();
-
-
-    if(
-      !json.status ||
-      !json.data
-    ){
-
-      throw new Error(
-        "Response API invalid."
-      );
-
-    }
-
-
-    currentMail = {
-
-      ...json.data,
-
-      creator:
-        json.creator,
-
-      status:
-        json.status
-
-    };
-
-
-    showMail(
-      currentMail
-    );
-
-
-    saveMail(
-      currentMail
-    );
-
-
-    showToast(
-      "✓ Gmail berhasil dibuat & disimpan"
-    );
-
-
-  }catch(error){
-
-    console.error(
-      error
-    );
-
-
-    document.getElementById(
-      "mailStatus"
-    ).textContent =
-      "ERROR";
-
-
-    showToast(
-      "Gagal: "+error.message
-    );
-
-
-  }finally{
-
-    generateBtn.disabled=false;
-
-    generateBtn.textContent =
-      "⚡ GENERATE EMAIL";
-
+    return;
   }
 
-}
+  savedList.innerHTML =
+    saved.map(
+      item => `
 
+      <div
+        class="saved-item">
 
-/* =========================================================
-   SHOW MAIL
-========================================================= */
+        <div
+          class="saved-email">
 
-function showMail(data){
+          ${escapeHTML(item.email)}
 
-  document.getElementById(
-    "mailAddress"
-  ).textContent =
-    data.email || "—";
+        </div>
 
+        <div
+          class="saved-link">
 
-  document.getElementById(
-    "mailStatus"
-  ).textContent =
-    "ACTIVE";
+          ${escapeHTML(
+            item.inbox_url ||
+            "Link generator tidak tersedia"
+          )}
 
+        </div>
 
-  document.getElementById(
-    "mailDot"
-  ).classList.add(
-    "active"
-  );
+        <div
+          class="saved-actions">
 
+          <button
+            class="saved-btn"
+            onclick="copySaved('${escapeJS(item.email)}')">
 
-  document.getElementById(
-    "mailApiStatus"
-  ).textContent =
-    data.status ?? true;
+            COPY
 
+          </button>
 
-  document.getElementById(
-    "mailCreator"
-  ).textContent =
-    data.creator || "—";
+          <button
+            class="saved-btn open"
+            onclick="openSaved('${escapeJS(item.inbox_url)}')">
 
+            OPEN GMAIL
 
-  document.getElementById(
-    "mailUsername"
-  ).textContent =
-    data.username || "—";
+          </button>
 
+          <button
+            class="saved-btn delete"
+            onclick="deleteSaved('${escapeJS(item.email)}')">
 
-  document.getElementById(
-    "mailDomain"
-  ).textContent =
-    data.domain || "—";
+            DELETE
 
+          </button>
 
-  const inbox =
-    document.getElementById(
-      "mailInbox"
-    );
+        </div>
 
+      </div>
 
-  if(data.inbox_url){
-
-    inbox.innerHTML =
       `
-        <a
-          href="${safe(data.inbox_url)}"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          ${safe(data.inbox_url)}
-        </a>
-      `;
-
-  }else{
-
-    inbox.textContent =
-      "—";
-
-  }
+    ).join("");
 
 }
 
+function copySaved(email){
 
-/* =========================================================
-   COPY CURRENT MAIL
-========================================================= */
-
-async function copyCurrentMail(){
-
-  if(!currentMail?.email){
-
-    showToast(
-      "Generate email dulu."
-    );
-
-    return;
-
-  }
-
-  await copyText(
-    currentMail.email
+  copyText(
+    email
   );
 
 }
 
+function openSaved(url){
 
-/* =========================================================
-   GMAIL
-========================================================= */
-
-function openCurrentGmail(){
-
-  if(!currentMail?.email){
+  if(!url){
 
     showToast(
-      "Generate email dulu."
+      "Link generator tidak tersedia"
     );
 
     return;
-
   }
-
-  openGmail(
-    currentMail.email
-  );
-
-}
-
-
-function openGmail(email){
-
-  const url =
-    "https://mail.google.com/mail/"
-    +
-    "?view=cm"
-    +
-    "&fs=1"
-    +
-    "&to="
-    +
-    encodeURIComponent(email);
 
   window.open(
     url,
@@ -3021,402 +2828,369 @@ function openGmail(email){
 
 }
 
-
 /* =========================================================
-   SAVED MAILS
+   GENERATE TEMP MAIL
 ========================================================= */
 
-function renderSavedMails(){
+async function generateEmail(){
 
-  const list =
-    getSavedMails();
+  generateBtn.disabled =
+    true;
 
-  const box =
-    document.getElementById(
-      "savedList"
+  generateBtn.textContent =
+    "GENERATING...";
+
+  setMailResult(
+    "Membuat email temporary...",
+    "wait"
+  );
+
+  currentEmail.textContent =
+    "Generating...";
+
+  statusText.textContent =
+    "PROCESSING";
+
+  statusDot.classList.remove(
+    "active"
+  );
+
+  try{
+
+    const response =
+      await fetch(
+        TEMPMAIL_API,
+        {
+          method:"GET",
+
+          headers:{
+            "x-api-key":
+              TEMPMAIL_KEY
+          }
+        }
+      );
+
+    const json =
+      await response.json();
+
+    if(
+      !response.ok ||
+      !json.status ||
+      !json.data ||
+      !json.data.email
+    ){
+
+      throw new Error(
+        json.message ||
+        json.error ||
+        "Gagal membuat email."
+      );
+
+    }
+
+    const data =
+      json.data;
+
+    currentMail = {
+      email:
+        data.email,
+
+      username:
+        data.username || "",
+
+      domain:
+        data.domain || "",
+
+      inbox_url:
+        data.inbox_url || "",
+
+      created_at:
+        Date.now()
+    };
+
+    localStorage.setItem(
+      "ryuze_current_mail",
+      JSON.stringify(
+        currentMail
+      )
     );
 
-  document.getElementById(
-    "savedCount"
-  ).textContent =
-    list.length;
+    saveEmail(
+      currentMail
+    );
 
+    updateCurrentMail();
 
-  if(!list.length){
+    setMailResult(
+      "Email berhasil dibuat dan otomatis disimpan ke SAVED GMAIL.\n\n"+
+      "Email: "+data.email+"\n"+
+      "Username: "+(data.username || "-")+"\n"+
+      "Domain: "+(data.domain || "-")+"\n"+
+      "Generator: "+(data.inbox_url || "-"),
+      "ok"
+    );
 
-    box.innerHTML = `
+    showToast(
+      "Email tersimpan otomatis"
+    );
 
-      <div class="saved-empty">
+  }catch(error){
 
-        <div class="icon">
-          ✉
-        </div>
+    currentEmail.textContent =
+      "Gagal membuat email";
 
-        <p>
-          Belum ada email tersimpan.<br>
-          Generate email dari menu TEMP MAIL.
-        </p>
+    statusText.textContent =
+      "ERROR";
 
-      </div>
+    statusDot.classList.remove(
+      "active"
+    );
 
-    `;
+    setMailResult(
+      "ERROR: "+
+      error.message,
+      "error"
+    );
 
-    return;
+  }finally{
+
+    generateBtn.disabled =
+      false;
+
+    generateBtn.textContent =
+      "⚡ GENERATE EMAIL";
 
   }
-
-
-  box.innerHTML =
-    list.map(
-      (item,index)=>`
-
-        <div
-          class="saved-item"
-        >
-
-          <div class="saved-top">
-
-            <div class="saved-email">
-
-              <strong>
-                ${safe(item.email)}
-              </strong>
-
-              <small>
-                ${safe(item.domain || "Temporary Email")}
-              </small>
-
-            </div>
-
-
-            <div class="saved-badge">
-              SAVED
-            </div>
-
-          </div>
-
-
-          <div class="saved-link">
-
-            <span>
-              INBOX:
-            </span>
-
-            ${
-              item.inbox_url
-              ? safe(item.inbox_url)
-              : "Tidak tersedia"
-            }
-
-          </div>
-
-
-          <div class="saved-actions">
-
-            <button
-              class="saved-action"
-              onclick="openSavedInbox(${index})"
-            >
-              OPEN LINK
-            </button>
-
-
-            <button
-              class="saved-action gmail-action"
-              onclick="openSavedGmail(${index})"
-            >
-              GMAIL
-            </button>
-
-
-            <button
-              class="saved-action"
-              onclick="copySavedMail(${index})"
-            >
-              COPY
-            </button>
-
-          </div>
-
-
-          <button
-            class="saved-action delete-action"
-            style="
-              width:100%;
-              margin-top:6px;
-            "
-            onclick="deleteSavedMail(${index})"
-          >
-            DELETE EMAIL
-
-          </button>
-
-        </div>
-
-      `
-    ).join("");
 
 }
 
-
 /* =========================================================
-   OPEN SAVED INBOX
+   UPDATE CURRENT MAIL
 ========================================================= */
 
-function openSavedInbox(index){
+function updateCurrentMail(){
 
-  const list =
-    getSavedMails();
+  if(!currentMail){
 
-  const item =
-    list[index];
+    currentEmail.textContent =
+      "Belum ada email";
 
-  if(!item){
+    statusText.textContent =
+      "WAITING";
 
-    return;
-
-  }
-
-  if(!item.inbox_url){
-
-    showToast(
-      "Link inbox tidak tersedia."
+    statusDot.classList.remove(
+      "active"
     );
 
     return;
+  }
 
+  currentEmail.textContent =
+    currentMail.email;
+
+  statusText.textContent =
+    "GENERATED";
+
+  statusDot.classList.add(
+    "active"
+  );
+
+}
+
+/* =========================================================
+   OPEN CURRENT GENERATOR
+========================================================= */
+
+function openCurrentGmail(){
+
+  if(
+    !currentMail ||
+    !currentMail.inbox_url
+  ){
+
+    showToast(
+      "Generate email terlebih dahulu"
+    );
+
+    return;
   }
 
   window.open(
-    item.inbox_url,
+    currentMail.inbox_url,
     "_blank"
   );
 
 }
 
-
 /* =========================================================
-   OPEN SAVED GMAIL
+   COPY CURRENT
 ========================================================= */
 
-function openSavedGmail(index){
+copyEmailBtn.addEventListener(
+  "click",
+  ()=>{
 
-  const list =
-    getSavedMails();
+    if(
+      !currentMail ||
+      !currentMail.email
+    ){
 
-  const item =
-    list[index];
+      showToast(
+        "Belum ada email"
+      );
 
-  if(!item){
+      return;
+    }
 
-    return;
-
-  }
-
-  if(!item.email){
-
-    return;
-
-  }
-
-  openGmail(
-    item.email
-  );
-
-}
-
-
-/* =========================================================
-   COPY SAVED
-========================================================= */
-
-async function copySavedMail(index){
-
-  const list =
-    getSavedMails();
-
-  const item =
-    list[index];
-
-  if(!item){
-
-    return;
-
-  }
-
-  await copyText(
-    item.email
-  );
-
-}
-
-
-/* =========================================================
-   DELETE SAVED
-========================================================= */
-
-function deleteSavedMail(index){
-
-  let list =
-    getSavedMails();
-
-  if(!list[index]){
-
-    return;
-
-  }
-
-  list.splice(
-    index,
-    1
-  );
-
-  localStorage.setItem(
-    MAIL_STORAGE,
-    JSON.stringify(list)
-  );
-
-  renderSavedMails();
-
-  showToast(
-    "Email dihapus dari Saved Gmail"
-  );
-
-}
-
-
-/* =========================================================
-   COPY
-========================================================= */
-
-async function copyText(text){
-
-  try{
-
-    await navigator
-      .clipboard
-      .writeText(text);
-
-    showToast(
-      "✓ Email disalin"
-    );
-
-  }catch{
-
-    showToast(
-      "Gagal copy"
+    copyText(
+      currentMail.email
     );
 
   }
-
-}
-
+);
 
 /* =========================================================
-   SAFE HTML
+   OPEN CURRENT
 ========================================================= */
 
-function safe(value){
+openGmailBtn.addEventListener(
+  "click",
+  openCurrentGmail
+);
 
-  return String(
-    value || ""
-  )
-  .replace(
-    /&/g,
-    "&amp;"
-  )
-  .replace(
-    /</g,
-    "&lt;"
-  )
-  .replace(
-    />/g,
-    "&gt;"
-  )
-  .replace(
-    /"/g,
-    "&quot;"
-  )
-  .replace(
-    /'/g,
-    "&#039;"
-  );
+/* =========================================================
+   GENERATE BUTTON
+========================================================= */
 
-}
-
+generateBtn.addEventListener(
+  "click",
+  generateEmail
+);
 
 /* =========================================================
    NAVIGATION
 ========================================================= */
 
 document
-  .querySelectorAll(
-    ".nav button"
-  )
-  .forEach(
-    button=>{
+.querySelectorAll(
+  ".nav button"
+)
+.forEach(button=>{
 
-      button.addEventListener(
-        "click",
-        ()=>{
+  button.addEventListener(
+    "click",
+    ()=>{
 
-          document
-            .querySelectorAll(
-              ".nav button"
-            )
-            .forEach(
-              x=>{
-                x.classList.remove(
-                  "active"
-                );
-              }
-            );
+      document
+      .querySelectorAll(
+        ".nav button"
+      )
+      .forEach(x=>{
 
+        x.classList.remove(
+          "active"
+        );
 
-          button.classList.add(
-            "active"
-          );
+      });
 
-
-          document
-            .querySelectorAll(
-              ".page"
-            )
-            .forEach(
-              page=>{
-                page.classList.remove(
-                  "active"
-                );
-              }
-            );
-
-
-          const target =
-            document.getElementById(
-              button.dataset.page
-            );
-
-
-          if(target){
-
-            target.classList.add(
-              "active"
-            );
-
-          }
-
-
-          window.scrollTo({
-            top:0,
-            behavior:"smooth"
-          });
-
-        }
+      button.classList.add(
+        "active"
       );
+
+      document
+      .querySelectorAll(
+        ".page"
+      )
+      .forEach(page=>{
+
+        page.classList.remove(
+          "active"
+        );
+
+      });
+
+      const target =
+        document.getElementById(
+          button.dataset.page
+        );
+
+      if(target){
+
+        target.classList.add(
+          "active"
+        );
+
+      }
+
+      window.scrollTo({
+        top:0,
+        behavior:"smooth"
+      });
 
     }
   );
 
+});
+
+/* =========================================================
+   ESCAPE HTML
+========================================================= */
+
+function escapeHTML(value){
+
+  return String(value ?? "")
+    .replace(
+      /&/g,
+      "&amp;"
+    )
+    .replace(
+      /</g,
+      "&lt;"
+    )
+    .replace(
+      />/g,
+      "&gt;"
+    )
+    .replace(
+      /"/g,
+      "&quot;"
+    )
+    .replace(
+      /'/g,
+      "&#039;"
+    );
+
+}
+
+function escapeJS(value){
+
+  return String(value ?? "")
+    .replace(
+      /\\/g,
+      "\\\\"
+    )
+    .replace(
+      /'/g,
+      "\\'"
+    )
+    .replace(
+      /\n/g,
+      "\\n"
+    )
+    .replace(
+      /\r/g,
+      "\\r"
+    );
+
+}
+
+/* =========================================================
+   LOAD
+========================================================= */
+
+renderSaved();
+
+updateCurrentMail();
 
 /* =========================================================
    NO PINCH ZOOM
@@ -3426,26 +3200,24 @@ document
   "gesturestart",
   "gesturechange",
   "gestureend"
-].forEach(
-  event=>{
+].forEach(event=>{
 
-    document.addEventListener(
-      event,
-      e=>e.preventDefault(),
-      {
-        passive:false
-      }
-    );
+  document.addEventListener(
+    event,
+    e=>e.preventDefault(),
+    {
+      passive:false
+    }
+  );
 
-  }
-);
-
+});
 
 /* =========================================================
    DOUBLE TAP ZOOM
 ========================================================= */
 
-let lastTouch=0;
+let lastTouch =
+  0;
 
 document.addEventListener(
   "touchend",
@@ -3470,13 +3242,6 @@ document.addEventListener(
     passive:false
   }
 );
-
-
-/* =========================================================
-   INIT
-========================================================= */
-
-renderSavedMails();
 
 </script>
 
