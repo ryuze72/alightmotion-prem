@@ -1740,6 +1740,301 @@ textarea:focus{
   }
 
 }
+
+/* =========================================================
+   UNIVERSAL BUTTON FX • SMOOTH + MOBILE
+========================================================= */
+
+button{
+  position:relative;
+  isolation:isolate;
+  -webkit-tap-highlight-color:transparent;
+  will-change:transform;
+  transition:
+    transform .18s cubic-bezier(.2,.8,.2,1),
+    filter .18s ease,
+    box-shadow .25s ease,
+    border-color .25s ease;
+}
+
+button:not(:disabled){
+  overflow:hidden;
+}
+
+button:not(:disabled)::after{
+  content:"";
+  position:absolute;
+  inset:-2px;
+  pointer-events:none;
+  border-radius:inherit;
+  background:
+    linear-gradient(
+      115deg,
+      transparent 20%,
+      rgba(255,255,255,.16) 45%,
+      rgba(255,255,255,.03) 52%,
+      transparent 75%
+    );
+  transform:translateX(-120%);
+  opacity:0;
+  transition:opacity .2s ease;
+  z-index:0;
+}
+
+button:not(:disabled):hover::after{
+  opacity:1;
+  animation:buttonSweep .7s ease both;
+}
+
+button:not(:disabled):hover{
+  filter:brightness(1.08);
+}
+
+button:not(:disabled):active{
+  transform:scale(.965);
+  filter:brightness(1.15);
+  transition-duration:.06s;
+}
+
+button:focus-visible{
+  outline:none;
+  box-shadow:
+    0 0 0 2px rgba(255,255,255,.08),
+    0 0 0 4px rgba(255,255,255,.025);
+}
+
+button:disabled{
+  cursor:not-allowed;
+}
+
+button > *{
+  position:relative;
+  z-index:2;
+}
+
+@keyframes buttonSweep{
+  from{transform:translateX(-120%)}
+  to{transform:translateX(120%)}
+}
+
+/* ripple */
+.button-ripple{
+  position:absolute;
+  width:12px;
+  height:12px;
+  border-radius:50%;
+  pointer-events:none;
+  z-index:10;
+  background:rgba(255,255,255,.28);
+  transform:translate(-50%,-50%) scale(0);
+  animation:buttonRipple .55s ease-out forwards;
+  box-shadow:0 0 18px rgba(255,255,255,.16);
+}
+
+@keyframes buttonRipple{
+  to{
+    transform:translate(-50%,-50%) scale(12);
+    opacity:0;
+  }
+}
+
+/* efek tombol nav */
+.nav button:not(:disabled):hover{
+  box-shadow:
+    inset 0 1px rgba(255,255,255,.06),
+    0 5px 18px rgba(255,255,255,.025);
+}
+
+/* efek tombol utama */
+.btn:not(:disabled):hover{
+  box-shadow:
+    0 10px 30px rgba(255,255,255,.10),
+    0 0 22px rgba(255,255,255,.035);
+}
+
+/* efek tombol kecil */
+.action:not(:disabled):hover,
+.saved-btn:not(:disabled):hover,
+.btn-dark:not(:disabled):hover{
+  box-shadow:
+    0 7px 20px rgba(255,255,255,.035);
+}
+
+/* touch device: jangan bergantung pada hover */
+@media (hover:none){
+  button:not(:disabled):active{
+    filter:brightness(1.14);
+  }
+
+  button:not(:disabled)::after{
+    display:none;
+  }
+}
+
+@media(prefers-reduced-motion:reduce){
+  button,
+  button::after{
+    animation:none !important;
+    transition-duration:.01ms !important;
+  }
+
+  .button-ripple{
+    display:none;
+  }
+}
+
+
+/* =========================================================
+   TUTORIAL • CLEAN TYPOGRAPHY
+========================================================= */
+#tutorial{
+  font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+}
+#tutorial .tutorial-wrap{width:min(100%,900px);margin:0 auto}
+#tutorial .tutorial-head{margin-bottom:22px}
+#tutorial .tutorial-kicker{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:11px;font-weight:700;letter-spacing:.16em;
+  text-transform:uppercase;color:rgba(255,255,255,.48);margin-bottom:8px
+}
+#tutorial .tutorial-title{
+  margin:0;font-size:clamp(25px,6vw,38px);line-height:1.12;
+  font-weight:800;letter-spacing:-.035em;color:#fff
+}
+#tutorial .tutorial-subtitle{
+  max-width:650px;margin:10px 0 0;font-size:14px;
+  line-height:1.7;font-weight:400;color:rgba(255,255,255,.52)
+}
+#tutorial .tutorial-grid{display:grid;gap:18px}
+#tutorial .tutorial-card{
+  position:relative;overflow:hidden;padding:20px;border-radius:22px;
+  border:1px solid rgba(255,255,255,.08);
+  background:linear-gradient(145deg,rgba(255,255,255,.065),rgba(255,255,255,.018));
+  box-shadow:inset 0 1px rgba(255,255,255,.045),0 15px 45px rgba(0,0,0,.18)
+}
+#tutorial .tutorial-card::before{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(circle at 0% 0%,rgba(255,255,255,.07),transparent 32%)
+}
+#tutorial .tutorial-card-head{
+  position:relative;display:flex;align-items:flex-start;gap:13px;margin-bottom:17px
+}
+#tutorial .tutorial-icon{
+  flex:0 0 42px;width:42px;height:42px;display:grid;place-items:center;
+  border-radius:13px;border:1px solid rgba(255,255,255,.09);
+  background:rgba(255,255,255,.045);font-size:19px
+}
+#tutorial .tutorial-card-title{
+  margin:0;font-size:17px;line-height:1.35;font-weight:750;
+  letter-spacing:-.018em;color:#fff
+}
+#tutorial .tutorial-card-desc{
+  margin:4px 0 0;font-size:12px;line-height:1.6;
+  font-weight:400;color:rgba(255,255,255,.45)
+}
+#tutorial .tutorial-video{
+  position:relative;overflow:hidden;width:100%;aspect-ratio:16/9;
+  border-radius:16px;background:#050507;border:1px solid rgba(255,255,255,.07);
+  margin-bottom:19px
+}
+#tutorial .tutorial-video video{
+  display:block;width:100%;height:100%;object-fit:cover;background:#050507
+}
+#tutorial .steps-title{
+  display:flex;
+  align-items:center;
+  gap:9px;
+  margin:0 0 15px;
+  color:rgba(255,255,255,.9);
+  font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  font-size:15px;
+  line-height:1.4;
+  font-weight:750;
+  letter-spacing:-.02em;
+}
+#tutorial .steps-title span{font-size:16px}
+
+#tutorial .steps{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  margin:0;
+  padding:0;
+  list-style:none;
+  counter-reset:tutorial-step;
+}
+
+#tutorial .steps li{
+  position:relative;
+  display:flex;
+  align-items:flex-start;
+  width:100%;
+  min-width:0;
+  gap:12px;
+  margin:0;
+  padding:0;
+  counter-increment:tutorial-step;
+  color:rgba(255,255,255,.7);
+  font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  font-size:14px;
+  line-height:1.55;
+  font-weight:500;
+  letter-spacing:-.01em;
+  word-break:normal;
+  overflow-wrap:normal;
+}
+
+#tutorial .steps li::before{
+  content:counter(tutorial-step);
+  flex:0 0 34px;
+  width:34px;
+  height:34px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  margin-top:0;
+  border-radius:11px;
+  background:linear-gradient(145deg,rgba(255,255,255,.075),rgba(255,255,255,.025));
+  border:1px solid rgba(255,255,255,.095);
+  color:rgba(255,255,255,.92);
+  font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  font-size:12px;
+  line-height:1;
+  font-weight:750;
+  font-variant-numeric:tabular-nums;
+  box-shadow:inset 0 1px rgba(255,255,255,.05);
+}
+
+#tutorial .steps li strong{
+  display:inline;
+  margin:0;
+  padding:0;
+  color:#fff;
+  font-family:inherit;
+  font-size:inherit;
+  line-height:inherit;
+  font-weight:750;
+  letter-spacing:inherit;
+}
+@media(min-width:760px){
+  #tutorial .tutorial-grid{grid-template-columns:repeat(2,minmax(0,1fr));align-items:start}
+  #tutorial .tutorial-card{padding:22px}
+}
+@media(max-width:480px){
+  #tutorial .tutorial-card{padding:17px;border-radius:19px}
+  #tutorial .tutorial-title{font-size:28px;line-height:1.08;letter-spacing:-.04em}
+  #tutorial .tutorial-subtitle{font-size:12.5px;line-height:1.65}
+  #tutorial .tutorial-card-title{font-size:16px;line-height:1.3}
+  #tutorial .steps-title{font-size:14px;margin-bottom:14px}
+  #tutorial .steps{gap:11px}
+  #tutorial .steps li{gap:11px;font-size:13.5px;line-height:1.55}
+  #tutorial .steps li::before{flex-basis:34px;width:34px;height:34px}
+}
+
+</style>
+
+<style>
+.tutorial-steps{margin:18px 0 0;padding-left:25px;display:grid;gap:10px;color:rgba(255,255,255,.78);line-height:1.55}.tutorial-steps li{padding-left:4px}.tutorial-steps b{color:#fff}.tutorial-video{margin-top:20px;border-radius:18px;overflow:hidden;border:1px solid rgba(255,255,255,.08);background:#05060b}.tutorial-video video{display:block;width:100%;max-height:520px;background:#05060b}
 </style>
 </head>
 
@@ -1819,7 +2114,7 @@ textarea:focus{
 
       <button
         data-page="tempmail">
-        ✉ EMAIL SEMENTARA
+        ✉ TEMP MAIL
       </button>
 
       <span class="nav-divider"></span>
@@ -1837,89 +2132,11 @@ textarea:focus{
       <button
         data-page="tutorial">
         ? CARA PAKAI
-      </button><section
-  class="page"
-  id="tutorial">
-
-  <div class="card">
-
-    <div class="card-title">
-      Cara Pakai
-    </div>
-
-    <div class="card-desc">
-      Ikuti video tutorial berikut untuk mengetahui
-      cara menggunakan AM Premium Verification.
-    </div>
-
-    <div class="info">
-
-      <h3>
-        ▶ VIDEO TUTORIAL 01
-      </h3>
-
-      <p>
-        Tutorial penggunaan AM Premium dari awal
-        sampai proses verification.
-      </p>
-
-      <video
-        controls
-        playsinline
-        preload="metadata"
-        style="
-          width:100%;
-          margin-top:12px;
-          border-radius:13px;
-          border:1px solid rgba(255,255,255,.1);
-          background:#000;
-        "
-      >
-        <source
-          src="https://files.catbox.moe/mt53k6.mov"
-          type="video/quicktime">
-        Browser kamu tidak mendukung video.
-      </video>
-
-    </div>
-
-    <div class="info">
-
-      <h3>
-        ▶ VIDEO TUTORIAL 02
-      </h3>
-
-      <p>
-        Video tutorial tambahan, untuk membantu menggunakan EMAIL SEMENTARA
-      </p>
-
-      <video
-        controls
-        playsinline
-        preload="metadata"
-        style="
-          width:100%;
-          margin-top:12px;
-          border-radius:13px;
-          border:1px solid rgba(255,255,255,.1);
-          background:#000;
-        "
-      >
-        <source
-          src="https://files.catbox.moe/a4g206.mp4"
-          type="video/mp4">
-        Browser kamu tidak mendukung video.
-      </video>
-
-    </div>
-
-  </div>
-
-</section>
+      </button>
 
       <button
         data-page="about">
-        ◉ FUNGSI WEBSITE INI
+        ◉ WEB
       </button>
 
     </div>
@@ -2005,32 +2222,14 @@ textarea:focus{
     <div class="card">
 
       <div class="card-title">
-        Email Sementara
+        Temporary Mail
       </div>
 
       <div class="card-desc">
-        Buat email sementara secara otomatis.
+        Buat alamat email temporary secara otomatis.
         Email yang berhasil dibuat akan tersimpan
         otomatis di menu "SAVED GMAIL".
       </div>
-
-<div style="
-  font-family: bold, bold;
-  font-size: 12px;
-">
-  <h2 style="font-size:15;">Fungsi Email Sementara:</h2>
-  <p style="font-size:11px;"> <div style="font-size:12px; line-height:1.6;">
-  <p style="margin-bottom:12px;">📩 Menerima email sementara, misalnya email konfirmasi.</p>
-
-  <p style="margin-bottom:12px;">🛡️ Menjaga privasi, karena tidak perlu memberikan email pribadi.</p>
-
-  <p style="margin-bottom:12px;">🧹 Mengurangi spam di inbox email utama.</p>
-
-  <p style="margin-bottom:12px;">🧪 Testing, misalnya untuk  membuat akun alight motion premium sebanyak banyak nya🗿🗿</p>
-
-  <p style="margin-bottom:12px;">⏳ Penggunaan sekali/berjangka pendek, sesuai layanan yang digunakan.</p>
-</div></p>
-</div>
 
       <button
         class="btn"
@@ -2126,18 +2325,99 @@ textarea:focus{
     </div>
 
   </section>
-
   <!-- =====================================================
        CARA PAKAI
-       
-       MENU TETAP ADA.
-       ISI DIHAPUS SESUAI REQUEST.
   ====================================================== -->
+  <section class="page" id="tutorial">
 
-  <section
-    class="page"
-    id="tutorial">
+    <div class="tutorial-wrap">
+
+      <div class="tutorial-head">
+        <div class="tutorial-kicker">
+          <span>✦</span>
+          TUTORIAL
+        </div>
+
+        <h1 class="tutorial-title">Cara Pakai</h1>
+
+        <p class="tutorial-subtitle">
+          Panduan penggunaan AM Premium. Ikuti langkah-langkah
+          sesuai metode yang ingin kamu gunakan.
+        </p>
+      </div>
+
+      <div class="tutorial-grid">
+
+        <!-- EMAIL PRIBADI -->
+        <article class="tutorial-card">
+          <div class="tutorial-card-head">
+            <div class="tutorial-icon">📧</div>
+            <div>
+              <h2 class="tutorial-card-title">Email Pribadi</h2>
+              <p class="tutorial-card-desc">
+                Cara mendapatkan Alight Motion Premium menggunakan email pribadi.
+              </p>
+            </div>
+          </div>
+
+          <div class="tutorial-video">
+            <video controls playsinline preload="metadata"
+              src="https://files.catbox.moe/mt53k6.mov"></video>
+          </div>
+
+          <h3 class="steps-title"><span>☷</span> Langkah-Langkah</h3>
+
+          <ol class="steps">
+            <li>Ketik <strong>email Anda</strong>.</li>
+            <li>Kirim <strong>Magic Link</strong>.</li>
+            <li>Cek Gmail folder <strong>Spam</strong>.</li>
+            <li>Salin <strong>Magic Link</strong>.</li>
+            <li>Verifikasi <strong>Magic Link</strong>.</li>
+          </ol>
+        </article>
+
+        <!-- EMAIL SEMENTARA -->
+        <article class="tutorial-card">
+          <div class="tutorial-card-head">
+            <div class="tutorial-icon">📩</div>
+            <div>
+              <h2 class="tutorial-card-title">Email Sementara</h2>
+              <p class="tutorial-card-desc">
+                Cara menggunakan email sementara untuk proses login dan verifikasi.
+              </p>
+            </div>
+          </div>
+
+          <div class="tutorial-video">
+            <video controls playsinline preload="metadata"
+              src="https://files.catbox.moe/a4g206.mp4"></video>
+          </div>
+
+          <h3 class="steps-title"><span>☷</span> Langkah-Langkah</h3>
+
+          <ol class="steps">
+            <li>Generate email terlebih dahulu di <strong>“Email Sementara”</strong>.</li>
+            <li>Copy email lalu login akun Alight Motion dengan Gmail.</li>
+            <li>Tempelkan Gmail lalu klik <strong>“Masuk”</strong>.</li>
+            <li>Kembali ke web, lalu tekan <strong>“Open Gmail”</strong>.</li>
+            <li>Scroll ke atas, lalu cek <strong>Inbox</strong>.</li>
+            <li>Klik <strong>“Login ke Alight Creative”</strong>.</li>
+            <li>Kembali ke web, buka menu <strong>“AM Premium”</strong>.</li>
+            <li>Ketik email yang digenerate tadi.</li>
+            <li>Kirim <strong>Magic Link</strong>.</li>
+            <li>Klik fitur <strong>“Open Gmail”</strong> di Gmail yang digenerate.</li>
+            <li>Cek <strong>Inbox</strong>.</li>
+            <li>Salin Magic Link di <strong>“Sign in to Alight Creative”</strong>.</li>
+            <li>Verifikasi <strong>Magic Link</strong>.</li>
+          </ol>
+        </article>
+
+      </div>
+    </div>
+
   </section>
+
+
 
   <!-- =====================================================
        ABOUT
@@ -2150,21 +2430,24 @@ textarea:focus{
     <div class="card">
 
       <div class="card-title">
-        
+        About Ryuze
       </div>
 
       <div class="card-desc">
-        
+        AM Premium Verification dengan interface
+        futuristic dan optimized mobile.
       </div>
 
       <div class="info">
 
         <h3>
-          premium/langganan alight motion gratisss
+          ⚡ PERFORMANCE
         </h3>
 
         <p>
-          
+          Efek visual menggunakan transform dan
+          opacity sebanyak mungkin agar rendering
+          tetap ringan.
         </p>
 
       </div>
@@ -2172,11 +2455,12 @@ textarea:focus{
       <div class="info">
 
         <h3>
-          Bisa membuat email sebanyak banyak nya untuk aplikasi apa aja
+          ✉ TEMP MAIL
         </h3>
 
         <p>
-          
+          Email temporary yang berhasil dibuat
+          otomatis dicatat pada menu Saved Gmail.
         </p>
 
       </div>
@@ -2184,11 +2468,12 @@ textarea:focus{
       <div class="info">
 
         <h3>
-          Di buat oleh orng GABUT
+          🔐 VERIFICATION
         </h3>
 
         <p>
-          
+          Gunakan hanya email dan akun yang memang
+          kamu miliki atau berhak kamu akses.
         </p>
 
       </div>
@@ -2212,14 +2497,11 @@ textarea:focus{
    API AM PREMIUM
 ========================================================= */
 
-const COOKIE_API =
-  "https://am.yappi.my.id/api/cookie";
-
 const SEND_API =
-  "https://am.yappi.my.id/api/send";
+  "https://v2.api-varhad.my.id/tools/amprem/verif/email";
 
 const VERIFY_API =
-  "https://am.yappi.my.id/api/verify";
+  "https://v2.api-varhad.my.id/tools/amprem/verif/link";
 
 /* =========================================================
    TEMP MAIL API
@@ -2481,29 +2763,14 @@ async function copyText(text){
 }
 
 /* =========================================================
-   COOKIE
+   API TERBARU ALIGHT MOTION
 ========================================================= */
 
-async function getCookie(){
-
-  const response =
-    await fetch(
-      COOKIE_API,
-      {
-        method:"GET"
-      }
-    );
-
-  if(!response.ok){
-
-    throw new Error(
-      "Gagal mendapatkan session."
-    );
-
-  }
-
-  return await response.json();
-}
+/*
+  API terbaru Alight Motion:
+  SEND:   GET /tools/amprem/verif/email?email=
+  VERIFY: GET /tools/amprem/verif/link?email=&link=
+*/
 
 /* =========================================================
    SEND MAGIC LINK
@@ -2512,103 +2779,78 @@ async function getCookie(){
 sendBtn.addEventListener(
   "click",
   async()=>{
-
     const email =
       emailInput.value.trim();
 
     if(!email){
-
       setResult(
         "Masukkan email terlebih dahulu.",
         "error"
       );
-
       return;
     }
 
-    sendBtn.disabled =
-      true;
-
-    sendBtn.textContent =
-      "PROCESSING...";
-
     setResult(
-      "Mengirim Magic Link...",
+      "Mengirim magic link...",
       "wait"
     );
 
     try{
-
-      const cookieData =
-        await getCookie();
-
-      const cookie =
-        cookieData.cookie ||
-        cookieData.session ||
-        cookieData.data?.cookie ||
-        "";
+      const url =
+        SEND_API +
+        "?email=" +
+        encodeURIComponent(email);
 
       const response =
         await fetch(
-          SEND_API,
+          url,
           {
-            method:"POST",
-
+            method:"GET",
             headers:{
-              "Content-Type":
-                "application/json"
-            },
-
-            body:JSON.stringify({
-              email,
-              cookie
-            })
+              "Accept":"application/json"
+            }
           }
         );
 
-      const data =
-        await response
-          .json()
-          .catch(()=>({}));
+      const raw =
+        await response.text();
+
+      let data;
+      try{
+        data = JSON.parse(raw);
+      }catch{
+        data = {message:raw};
+      }
 
       if(!response.ok){
-
         throw new Error(
-          data.message ||
-          data.error ||
-          "Request gagal."
+          data?.message ||
+          data?.msg ||
+          `HTTP ${response.status}`
         );
-
       }
 
       setResult(
-        data.message ||
-        data.msg ||
-        "Magic Link berhasil dikirim. Silakan cek email kamu.",
+        data?.message ||
+        data?.msg ||
+        JSON.stringify(data,null,2),
         "ok"
       );
 
       showToast(
-        "Magic Link terkirim"
+        "Magic link berhasil dikirim"
       );
-
     }catch(error){
-
       setResult(
-        "ERROR: "+error.message,
+        "Gagal mengirim magic link: " +
+        error.message,
         "error"
       );
 
-    }finally{
-
-      sendBtn.disabled =
-        false;
-
-      sendBtn.textContent =
-        "SEND MAGIC LINK";
-
+      showToast(
+        "Gagal mengirim magic link"
+      );
     }
-
   }
 );
 
@@ -2619,7 +2861,6 @@ sendBtn.addEventListener(
 verifyBtn.addEventListener(
   "click",
   async()=>{
-
     const email =
       emailInput.value.trim();
 
@@ -2627,22 +2868,18 @@ verifyBtn.addEventListener(
       linkInput.value.trim();
 
     if(!email){
-
       setResult(
         "Masukkan email terlebih dahulu.",
         "error"
       );
-
       return;
     }
 
     if(!link){
-
       setResult(
         "Masukkan Verification Link.",
         "error"
       );
-
       return;
     }
 
@@ -2658,54 +2895,65 @@ verifyBtn.addEventListener(
     );
 
     try{
-
-      const cookieData =
-        await getCookie();
-
-      const cookie =
-        cookieData.cookie ||
-        cookieData.session ||
-        cookieData.data?.cookie ||
-        "";
+      const url =
+        VERIFY_API +
+        "?email=" +
+        encodeURIComponent(email) +
+        "&link=" +
+        encodeURIComponent(link);
 
       const response =
         await fetch(
-          VERIFY_API,
+          url,
           {
-            method:"POST",
-
+            method:"GET",
             headers:{
-              "Content-Type":
+              "Accept":
                 "application/json"
-            },
-
-            body:JSON.stringify({
-              email,
-              link,
-              cookie
-            })
+            }
           }
         );
 
-      const data =
-        await response
-          .json()
-          .catch(()=>({}));
+      const text =
+        await response.text();
 
-      if(!response.ok){
+      let data;
 
-        throw new Error(
-          data.message ||
-          data.error ||
-          "Verification gagal."
-        );
-
+      try{
+        data =
+          JSON.parse(text);
+      }catch{
+        data =
+          text;
       }
 
+      if(!response.ok){
+        throw new Error(
+          typeof data === "string"
+            ? data
+            : (
+                data?.message ||
+                data?.error ||
+                "Verification gagal."
+              )
+        );
+      }
+
+      const message =
+        typeof data === "string"
+          ? data
+          : (
+              data?.message ||
+              data?.msg ||
+              JSON.stringify(
+                data,
+                null,
+                2
+              )
+            );
+
       setResult(
-        data.message ||
-        data.msg ||
-        "Account berhasil diverifikasi.",
+        message,
         "ok"
       );
 
@@ -2716,7 +2964,11 @@ verifyBtn.addEventListener(
     }catch(error){
 
       setResult(
-        "ERROR: "+error.message,
+        "ERROR: " +
+        (
+          error?.message ||
+          "Request gagal."
+        ),
         "error"
       );
 
@@ -2727,9 +2979,7 @@ verifyBtn.addEventListener(
 
       verifyBtn.textContent =
         "VERIFY ACCOUNT";
-
     }
-
   }
 );
 
@@ -3333,6 +3583,28 @@ document.addEventListener(
     passive:false
   }
 );
+
+
+/* =========================================================
+   UNIVERSAL BUTTON RIPPLE
+========================================================= */
+document.addEventListener("pointerdown", function(e){
+  const button = e.target.closest("button");
+  if(!button || button.disabled) return;
+
+  const rect = button.getBoundingClientRect();
+  const ripple = document.createElement("span");
+
+  ripple.className = "button-ripple";
+  ripple.style.left = (e.clientX - rect.left) + "px";
+  ripple.style.top = (e.clientY - rect.top) + "px";
+
+  button.appendChild(ripple);
+
+  ripple.addEventListener("animationend", function(){
+    ripple.remove();
+  }, {once:true});
+}, {passive:true});
 
 </script>
 
