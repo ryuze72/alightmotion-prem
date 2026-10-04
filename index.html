@@ -1,1 +1,12 @@
-PLACEHOLDER_REPLACE_WITH_FILE
+<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Ryuze — AM Premium</title></head><body>
+<script>
+(async()=>{
+  const n=5;
+  let html="";
+  for(let i=0;i<n;i++){
+    const t=await fetch("chunk"+i+".txt").then(r=>r.text());
+    html+=t;
+  }
+  document.open();document.write(html);document.close();
+})().catch(e=>{document.body.textContent="Error: "+e});
+</script></body></html>
