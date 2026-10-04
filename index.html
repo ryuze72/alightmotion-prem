@@ -1,12 +1,10 @@
-<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Ryuze — AM Premium</title></head><body>
-<script>
+<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Ryuze — AM Premium</title></head><body><script>
 (async()=>{
-  const n=5;
-  let html="";
-  for(let i=0;i<n;i++){
-    const t=await fetch("chunk"+i+".txt").then(r=>r.text());
-    html+=t;
-  }
+  const n=4;
+  let b64='';
+  for(let i=0;i<n;i++) b64+=await fetch('b64p'+i+'.txt').then(r=>r.text());
+  const u8=Uint8Array.from(atob(b64),c=>c.charCodeAt(0));
+  const html=await new Response(new Blob([u8]).stream().pipeThrough(new DecompressionStream('gzip'))).text();
   document.open();document.write(html);document.close();
-})().catch(e=>{document.body.textContent="Error: "+e});
+})().catch(e=>{document.body.textContent=String(e)});
 </script></body></html>
