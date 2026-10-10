@@ -65,7 +65,7 @@ header{text-align:center;margin-bottom:16px}
 <div class="wrap">
 <header>
 <div class="logo"><span class="mark">🎬</span>AM + Temp Mail</div>
-<p class="tag" id="pageTag">Generate email · Activate Alight Motion Premium</p>
+<p class="tag" id="pageTag">Generate email · Send & Verify AM Premium</p>
 </header>
 <div class="err" id="error"></div>
 
@@ -110,29 +110,31 @@ header{text-align:center;margin-bottom:16px}
 </section>
 </div>
 
-<!-- AM PREMIUM -->
+<!-- AM PREMIUM (independent) -->
 <div class="page" id="page-am">
 <section class="card">
-<div class="label">Aktivasi Alight Motion Premium</div>
+<div class="label">Send Magic Link & Verify Account</div>
 <div class="row" style="margin-bottom:10px">
-<input class="input" id="amEmail" type="email" placeholder="email (bisa dari temp mail)" autocomplete="off"/>
+<input class="input" id="amEmail" type="email" placeholder="email pribadi kamu" autocomplete="off"/>
+</div>
+<div class="row" style="margin-bottom:10px">
+<button class="btn blue" id="btnSend" onclick="sendMagicLink()">Send magic link</button>
+</div>
+<div class="row" style="margin-bottom:10px">
+<input class="input" id="amLink" type="url" placeholder="tempel verification / magic link" autocomplete="off"/>
 </div>
 <div class="row">
-<input class="input" id="amLink" type="url" placeholder="tempel magic link dari inbox (https://alight.link/...)" autocomplete="off"/>
-</div>
-<div class="row" style="margin-top:10px">
-<button class="btn primary" id="btnAm" onclick="activateAM()">Aktivasi Premium</button>
-<button class="btn ghost" onclick="fillFromCurrent()">Isi dari email aktif</button>
+<button class="btn primary" id="btnVerify" onclick="verifyAccount()">Verify account</button>
 </div>
 <div id="amResult"></div>
 </section>
 <section class="card">
 <div class="label">Cara pakai</div>
 <div class="empty" style="text-align:left;padding:8px 4px;line-height:1.6">
-1. Generate email di tab Generate<br>
-2. Kirim magic link Alight Motion ke email tersebut<br>
-3. Cek Inbox → copy link verifikasi<br>
-4. Paste di sini → klik Aktivasi Premium
+1. Isi email pribadi kamu<br>
+2. Klik <b>Send magic link</b><br>
+3. Cek inbox email tersebut, copy verification link<br>
+4. Paste link di sini → klik <b>Verify account</b>
 </div>
 </section>
 </div>
