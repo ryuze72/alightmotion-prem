@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+<title>AM + Temp Mail</title>
+<style>
+:root{--bg:#07090f;--card:#0e121b;--elev:#151b27;--border:#1e2636;--text:#eef2ff;--muted:#8b95a8;--accent:#6ee7b7;--blue:#60a5fa;--warn:#fbbf24;--danger:#fb7185;--nav-h:68px}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;line-height:1.5;padding-bottom:calc(var(--nav-h)+12px)}
+body::before{content:"";position:fixed;inset:0;background:radial-gradient(ellipse 80% 50% at 20% -10%,rgba(110,231,183,.1),transparent),radial-gradient(ellipse 60% 40% at 90% 10%,rgba(96,165,250,.08),transparent);pointer-events:none;z-index:0}
+.wrap{position:relative;z-index:1;max-width:720px;margin:0 auto;padding:18px 14px 20px}
+header{text-align:center;margin-bottom:16px}
+.logo{font-weight:800;font-size:1.25rem;display:inline-flex;align-items:center;gap:8px}
+.mark{width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,var(--accent),var(--blue));display:grid;place-items:center;color:#041016;font-size:.9rem}
+.tag{color:var(--muted);font-size:.82rem;margin-top:4px}
+.page{display:none}.page.active{display:block}
+.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px;margin-bottom:12px}
+.label{font-size:.68rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:stretch}
+.email-box,.input{flex:1;min-width:140px;background:var(--elev);border:1px solid var(--border);border-radius:10px;padding:11px 12px;font-weight:600;color:var(--accent);word-break:break-all;font-size:.92rem}
+.email-box.empty,.input::placeholder{color:var(--muted);font-weight:500}
+.input{color:var(--text);font-weight:500;outline:none}
+.input:focus{border-color:var(--blue)}
+.btn{border:none;border-radius:10px;padding:10px 14px;font-weight:700;font-size:.84rem;cursor:pointer;white-space:nowrap}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.primary{background:linear-gradient(135deg,var(--accent),#34d399);color:#042f1a}
+.ghost{background:var(--elev);color:var(--text);border:1px solid var(--border)}
+.blue{background:linear-gradient(135deg,#60a5fa,#3b82f6);color:#fff}
+.btn-login{background:linear-gradient(135deg,#60a5fa,#3b82f6);color:#fff;flex:1}
+.btn-verify{background:linear-gradient(135deg,#fbbf24,#f59e0b);color:#1a1200;flex:1}
+.btn-link{background:var(--elev);color:var(--accent);border:1px solid var(--border);flex:1;font-size:.78rem}
+.btn-danger{background:rgba(251,113,133,.15);color:var(--danger);border:1px solid rgba(251,113,133,.3);padding:5px 9px;font-size:.72rem;border-radius:999px}
+.meta{display:flex;justify-content:space-between;margin-top:10px;font-size:.75rem;color:var(--muted);flex-wrap:wrap;gap:6px}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--muted);display:inline-block;margin-right:5px}
+.dot.live{background:var(--accent);box-shadow:0 0 6px var(--accent)}.dot.busy{background:var(--blue)}
+.ih{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;gap:8px}.ih h2{font-size:.98rem}
+.empty{text-align:center;padding:24px 10px;color:var(--muted);font-size:.88rem}
+.saved-list{display:flex;flex-direction:column;gap:8px;max-height:200px;overflow-y:auto;margin-top:8px}
+.saved-item{display:flex;align-items:center;gap:8px;background:var(--elev);border:1px solid var(--border);border-radius:10px;padding:9px 10px;cursor:pointer}
+.saved-item.active{border-color:var(--accent);background:rgba(110,231,183,.06)}
+.saved-email{flex:1;font-size:.85rem;font-weight:600;color:var(--accent);word-break:break-all}
+.saved-meta{font-size:.68rem;color:var(--muted);white-space:nowrap}
+.msg{background:var(--elev);border:1px solid var(--border);border-radius:10px;padding:11px 12px;margin-bottom:8px}
+.msg.login-type{border-color:rgba(96,165,250,.4)}.msg.verify-type{border-color:rgba(251,191,36,.4)}
+.msg-top{cursor:pointer}.from{font-weight:600;font-size:.88rem}.subj{color:var(--muted);font-size:.82rem;margin:2px 0}.time{font-size:.7rem;color:var(--muted);opacity:.85}
+.magic{margin-top:8px;padding:8px;border-radius:8px;background:rgba(0,0,0,.2);border:1px solid var(--border)}
+.magic.login{border-color:rgba(96,165,250,.3);background:rgba(96,165,250,.07)}
+.magic.verify{border-color:rgba(251,191,36,.3);background:rgba(251,191,36,.07)}
+.ml{font-size:.74rem;font-weight:700;margin-bottom:6px}.ml.login{color:var(--blue)}.ml.verify{color:var(--warn)}
+.ma{display:flex;gap:6px;flex-wrap:wrap}.mu{margin-top:5px;font-size:.66rem;color:var(--muted);word-break:break-all}
+.body{margin-top:8px;padding-top:8px;border-top:1px solid var(--border);font-size:.84rem;white-space:pre-wrap;word-break:break-word;max-height:200px;overflow:auto}
+.result{background:var(--elev);border:1px solid var(--border);border-radius:10px;padding:12px;margin-top:10px;font-size:.86rem;white-space:pre-wrap;word-break:break-word}
+.result.ok{border-color:rgba(110,231,183,.4);color:var(--accent)}
+.result.err{border-color:rgba(251,113,133,.4);color:var(--danger)}
+.toast{position:fixed;bottom:calc(var(--nav-h)+10px);left:50%;transform:translateX(-50%);background:var(--elev);border:1px solid var(--border);padding:9px 14px;border-radius:999px;font-size:.82rem;font-weight:600;z-index:60;opacity:0;pointer-events:none;transition:.2s;max-width:90%;text-align:center}
+.toast.show{opacity:1}
+.err{background:rgba(251,113,133,.1);border:1px solid rgba(251,113,133,.3);color:var(--danger);border-radius:10px;padding:10px;font-size:.84rem;margin-bottom:10px;display:none}
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;height:var(--nav-h);background:rgba(14,18,27,.95);backdrop-filter:blur(10px);border-top:1px solid var(--border);display:flex;z-index:40;padding-bottom:env(safe-area-inset-bottom,0)}
+.nav-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;background:none;border:none;color:var(--muted);font-size:.68rem;font-weight:700;cursor:pointer;padding:6px}
+.nav-item.active{color:var(--accent)}.nav-icon{font-size:1.2rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+<div class="logo"><span class="mark">🎬</span>AM + Temp Mail</div>
+<p class="tag" id="pageTag">Generate email · Activate Alight Motion Premium</p>
+</header>
+<div class="err" id="error"></div>
+
+<!-- GENERATE -->
+<div class="page active" id="page-generate">
+<section class="card">
+<div class="label">Email aktif</div>
+<div class="row">
+<div class="email-box empty" id="emailDisplay">Belum ada email — klik Generate</div>
+<button class="btn ghost" id="btnCopy" disabled onclick="copyEmail()">Copy</button>
+<button class="btn primary" id="btnGen" onclick="generateEmail()">Generate</button>
+</div>
+<div class="meta"><span id="statusLine"><span class="dot"></span>Siaga</span><span>Auto-save ke Saved</span></div>
+</section>
+<section class="card">
+<div class="ih"><h2>Inbox <span id="msgCountGen" style="color:var(--muted);font-weight:500"></span></h2>
+<button class="btn ghost" id="btnRefreshGen" disabled onclick="refreshInbox(true)">Refresh</button></div>
+<div id="inboxGen"><div class="empty">Generate email dulu.</div></div>
+</section>
+</div>
+
+<!-- SAVED -->
+<div class="page" id="page-saved">
+<section class="card">
+<div class="label">Search email</div>
+<div class="row">
+<input class="input" id="searchInput" type="email" placeholder="ketik email…" autocomplete="off"/>
+<button class="btn blue" onclick="searchByEmail()">Search inbox</button>
+</div>
+</section>
+<section class="card">
+<div class="ih">
+<div class="label" style="margin:0">Saved Email <span id="savedCount" style="color:var(--muted);font-weight:500"></span></div>
+<button class="btn ghost" style="padding:5px 8px;font-size:.72rem" onclick="clearSaved()">Clear</button>
+</div>
+<div class="saved-list" id="savedList"><div class="empty">Belum ada email tersimpan.</div></div>
+</section>
+<section class="card">
+<div class="ih"><h2>Inbox <span id="msgCountSaved" style="color:var(--muted);font-weight:500"></span></h2>
+<button class="btn ghost" id="btnRefreshSaved" disabled onclick="refreshInbox(true)">Refresh</button></div>
+<div id="inboxSaved"><div class="empty">Pilih email dulu.</div></div>
+</section>
+</div>
+
+<!-- AM PREMIUM -->
+<div class="page" id="page-am">
+<section class="card">
+<div class="label">Aktivasi Alight Motion Premium</div>
+<div class="row" style="margin-bottom:10px">
+<input class="input" id="amEmail" type="email" placeholder="email (bisa dari temp mail)" autocomplete="off"/>
+</div>
+<div class="row">
+<input class="input" id="amLink" type="url" placeholder="tempel magic link dari inbox (https://alight.link/...)" autocomplete="off"/>
+</div>
+<div class="row" style="margin-top:10px">
+<button class="btn primary" id="btnAm" onclick="activateAM()">Aktivasi Premium</button>
+<button class="btn ghost" onclick="fillFromCurrent()">Isi dari email aktif</button>
+</div>
+<div id="amResult"></div>
+</section>
+<section class="card">
+<div class="label">Cara pakai</div>
+<div class="empty" style="text-align:left;padding:8px 4px;line-height:1.6">
+1. Generate email di tab Generate<br>
+2. Kirim magic link Alight Motion ke email tersebut<br>
+3. Cek Inbox → copy link verifikasi<br>
+4. Paste di sini → klik Aktivasi Premium
+</div>
+</section>
+</div>
+</div>
+
+<nav class="bottom-nav">
+<button class="nav-item active" id="nav-generate" onclick="switchPage('generate')"><span class="nav-icon">✉️</span>Generate</button>
+<button class="nav-item" id="nav-saved" onclick="switchPage('saved')"><span class="nav-icon">📂</span>Saved</button>
+<button class="nav-item" id="nav-am" onclick="switchPage('am')"><span class="nav-icon">⭐</span>AM Prem</button>
+</nav>
+<div class="toast" id="toast"></div>
+<script src="/app.js"></script>
+</body>
+</html>
