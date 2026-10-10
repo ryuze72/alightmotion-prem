@@ -17,9 +17,20 @@ export default async function handler(req, res) {
   try {
     const url = `${SEND_API}?email=${encodeURIComponent(email)}`;
     const upstream = await fetch(url, {
-      headers: { Accept: 'application/json', 'User-Agent': 'AM-Prem/1.0' },
+      headers: {
+        Accept: 'application/json',
+        'User-Agent': 'Mozilla/5.0 (compatible; AM-Prem/1.0)',
+      },
     });
-    const data = await upstream.json().catch(() => ({ status: false, message: 'Invalid response' }));
+
+    const text = await upstream.text();
+    let data;
+    try {
+      data = JSON.parse(text);
+    } catch {
+      data = { status: false, message: 'Invalid response', raw: text.slice(0, 500) };
+    }
+
     res.status(upstream.ok ? 200 : upstream.status).json(data);
   } catch (err) {
     res.status(500).json({ status: false, message: err.message || 'Proxy error' });
