@@ -1,6 +1,6 @@
 export const config = { runtime: 'nodejs', maxDuration: 30 };
-const API_BASE = 'https://api.theresav.eu';
-const API_KEY = process.env.THERESA_API_KEY || 'hOLlZ';
+const API_BASE = process.env.AM_API_BASE || 'https://api.theresav.eu';
+const API_KEY = process.env.AM_API_KEY || 'kyzo_c0817e7b8c1a9278';
 
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -14,9 +14,9 @@ export default async function handler(req, res) {
   }
 
   try {
-    const target = `${API_BASE}/api/tools/generator-email/inbox?email=${encodeURIComponent(email)}`;
+    const target = `${API_BASE}/api/tempmailcheck?email=${encodeURIComponent(email)}&key=${encodeURIComponent(API_KEY)}`;
     const upstream = await fetch(target, {
-      headers: { 'x-apikey': API_KEY, Accept: 'application/json' },
+      headers: { Accept: 'application/json', 'User-Agent': 'AM-TempMail/1.0' },
     });
     const data = await upstream.json();
     res.status(upstream.status).json(data);
