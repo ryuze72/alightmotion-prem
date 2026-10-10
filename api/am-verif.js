@@ -1,8 +1,6 @@
 export const config = { runtime: 'nodejs', maxDuration: 30 };
 
-// Configurable — set AM_API_BASE in Vercel env if different
-const AM_BASE = process.env.AM_API_BASE || 'https://api.theresav.eu';
-const AM_KEY = process.env.AM_API_KEY || 'kyzo_c0817e7b8c1a9278';
+const VERIFY_API = process.env.AM_VERIFY_API || 'https://v2.api-varhad.my.id/tools/amprem/verif/link';
 
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -16,7 +14,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    const url = `${AM_BASE}/api/am-verif2?key=${encodeURIComponent(AM_KEY)}&email=${encodeURIComponent(email)}&link=${encodeURIComponent(link)}`;
+    const url = `${VERIFY_API}?email=${encodeURIComponent(email)}&link=${encodeURIComponent(link)}`;
     const upstream = await fetch(url, {
       headers: { Accept: 'application/json', 'User-Agent': 'AM-TempMail/1.0' },
     });
