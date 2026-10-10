@@ -20,7 +20,8 @@ const el={
   amEmail:document.getElementById('amEmail'),
   amLink:document.getElementById('amLink'),
   amResult:document.getElementById('amResult'),
-  btnAm:document.getElementById('btnAm'),
+  btnSend:document.getElementById('btnSend'),
+  btnVerify:document.getElementById('btnVerify'),
 };
 function toast(m){el.toast.textContent=m;el.toast.classList.add('show');setTimeout(()=>el.toast.classList.remove('show'),2200)}
 function setError(m){if(!m){el.error.style.display='none';el.error.textContent='';return}el.error.style.display='block';el.error.textContent=m}
@@ -31,7 +32,7 @@ function switchPage(page){
     document.getElementById('page-'+p).classList.toggle('active',p===page);
     document.getElementById('nav-'+p).classList.toggle('active',p===page);
   });
-  el.pageTag.textContent=page==='generate'?'Generate email sementara':page==='saved'?'Search email · Saved · Inbox':'Aktivasi Alight Motion Premium';
+  el.pageTag.textContent=page==='generate'?'Generate email sementara':page==='saved'?'Search email · Saved · Inbox':'Send magic link · Verify account';
   renderInbox(lastMessages);updateRefreshButtons();
 }
 function loadSaved(){try{const r=localStorage.getItem(KEY_SAVED);const l=r?JSON.parse(r):[];return Array.isArray(l)?l:[]}catch(e){return[]}}
@@ -50,12 +51,12 @@ function renderSaved(){
 }
 function selectSaved(address){
   currentEmail=address;localStorage.setItem(KEY_ACTIVE,currentEmail);
-  el.searchInput.value=address;if(el.amEmail)el.amEmail.value=address;
+  el.searchInput.value=address;
   updateEmailUI();renderSaved();expandedId=null;
   toast('Inbox: '+address);refreshInbox(true);startPolling();
 }
 function updateEmailUI(){
-  if(currentEmail){el.email.textContent=currentEmail;el.email.classList.remove('empty');el.btnCopy.disabled=false;localStorage.setItem(KEY_ACTIVE,currentEmail);if(el.amEmail&&!el.amEmail.value)el.amEmail.value=currentEmail}
+  if(currentEmail){el.email.textContent=currentEmail;el.email.classList.remove('empty');el.btnCopy.disabled=false;localStorage.setItem(KEY_ACTIVE,currentEmail)}
   else{el.email.textContent='Belum ada email — klik Generate';el.email.classList.add('empty');el.btnCopy.disabled=true}
   updateRefreshButtons();
 }
@@ -67,7 +68,7 @@ async function generateEmail(){
     const res=await fetch('/api/create');const data=await res.json();
     if(!res.ok||!data.status||!data.result||!data.result.email)throw new Error(data.message||'Gagal generate email');
     currentEmail=data.result.email;expandedId=null;autoSaveEmail(currentEmail);
-    el.searchInput.value=currentEmail;if(el.amEmail)el.amEmail.value=currentEmail;
+    el.searchInput.value=currentEmail;
     updateEmailUI();renderSaved();
     toast('Email baru + auto-saved');await refreshInbox(true);startPolling();
   }catch(err){setError(err.message||'Error generate');setStatus('','Error')}
@@ -78,7 +79,6 @@ function searchByEmail(){
   if(!raw){setError('Masukkan alamat email dulu');return}
   if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(raw)){setError('Format email tidak valid');return}
   setError('');currentEmail=raw;autoSaveEmail(currentEmail);localStorage.setItem(KEY_ACTIVE,currentEmail);
-  if(el.amEmail)el.amEmail.value=raw;
   updateEmailUI();renderSaved();expandedId=null;toast('Search inbox: '+raw);refreshInbox(true);startPolling();
 }
 el.searchInput.addEventListener('keydown',e=>{if(e.key==='Enter')searchByEmail()});
@@ -120,7 +120,7 @@ function renderInbox(messages){
       let h='<div class="msg'+tc+'"><div class="msg-top" onclick="toggleMsg(\''+escapeAttr(id)+'\')"><div class="from">'+escapeHtml(String(from))+'</div><div class="subj">'+escapeHtml(String(subject))+'</div>'+(time?'<div class="time">'+escapeHtml(String(time))+'</div>':'')+'</div>';
       if(magic){
         if(kind==='login'){h+='<div class="magic login"><div class="ml login">🔐 Login ke Alight Creative terdeteksi</div><div class="ma"><button class="btn btn-link" onclick="event.stopPropagation();copyLink(\''+escapeAttr(magic)+'\',\'Link login disalin\')">Copy link login</button><button class="btn btn-login" onclick="event.stopPropagation();openLink(\''+escapeAttr(magic)+'\')">Setujui untuk login</button></div><div class="mu">'+escapeHtml(magic)+'</div></div>'}
-        else if(kind==='verify'){h+='<div class="magic verify"><div class="ml verify">✉️ Sign in / verifikasi terdeteksi</div><div class="ma"><button class="btn btn-link" onclick="event.stopPropagation();copyLink(\''+escapeAttr(magic)+'\',\'Link verifikasi disalin\')">Copy link verifikasi</button><button class="btn btn-verify" onclick="event.stopPropagation();useLinkForAM(\''+escapeAttr(magic)+'\')">Pakai untuk AM Prem</button></div><div class="mu">'+escapeHtml(magic)+'</div></div>'}
+        else if(kind==='verify'){h+='<div class="magic verify"><div class="ml verify">✉️ Sign in / verifikasi terdeteksi</div><div class="ma"><button class="btn btn-link" onclick="event.stopPropagation();copyLink(\''+escapeAttr(magic)+'\',\'Link verifikasi disalin\')">Copy link verifikasi</button><button class="btn primary" onclick="event.stopPropagation();openLink(\''+escapeAttr(magic)+'\')">Buka link</button></div><div class="mu">'+escapeHtml(magic)+'</div></div>'}
         else{h+='<div class="magic"><div class="ml" style="color:var(--accent)">🔗 Link terdeteksi</div><div class="ma"><button class="btn btn-link" onclick="event.stopPropagation();copyLink(\''+escapeAttr(magic)+'\',\'Link disalin\')">Copy link</button><button class="btn primary" onclick="event.stopPropagation();openLink(\''+escapeAttr(magic)+'\')">Buka link</button></div><div class="mu">'+escapeHtml(magic)+'</div></div>'}
       }
       if(open)h+='<div class="body">'+(escapeHtml(String(body))||'<em style="color:var(--muted)">(empty)</em>')+'</div>';
@@ -132,53 +132,39 @@ function renderInbox(messages){
 function toggleMsg(id){expandedId=expandedId===String(id)?null:String(id);renderInbox(lastMessages)}
 function copyLink(url,msg){navigator.clipboard.writeText(url).then(()=>toast(msg||'Link disalin'))}
 function openLink(url){window.open(url,'_blank','noopener,noreferrer');toast('Membuka link...')}
-function useLinkForAM(url){
-  if(el.amLink)el.amLink.value=url;
-  if(currentEmail&&el.amEmail)el.amEmail.value=currentEmail;
-  switchPage('am');
-  toast('Link dimasukkan ke AM Prem');
-}
-function fillFromCurrent(){
-  if(currentEmail&&el.amEmail)el.amEmail.value=currentEmail;
-  toast('Email aktif diisi');
-}
-function findLatestMagic(){
-  if(!lastMessages||!lastMessages.length)return null;
-  for(const m of lastMessages){
-    const body=pickField(m,['body','text','content','message','html'],'');
-    const subject=pickField(m,['subject','title'],'');
-    const magic=pickMagic(extractLinks(String(body)+' '+String(subject)));
-    if(magic)return magic;
-  }
-  return null;
-}
-async function activateAM(){
+async function sendMagicLink(){
   const email=(el.amEmail.value||'').trim();
-  let link=(el.amLink.value||'').trim();
-  if(!email){setError('Email wajib diisi');return}
-  if(!link){
-    const auto=findLatestMagic();
-    if(auto){
-      link=auto;
-      if(el.amLink)el.amLink.value=link;
-      toast('Link magic diisi otomatis dari inbox');
-    }else{
-      setError('Link kosong & tidak ada magic link di inbox');
-      return;
-    }
-  }
-  setError('');el.btnAm.disabled=true;el.btnAm.textContent='Memproses...';
-  el.amResult.innerHTML='<div class="result">Memanggil API...</div>';
+  if(!email){setError('Isi email dulu');return}
+  setError('');el.btnSend.disabled=true;el.btnSend.textContent='Sending...';
+  el.amResult.innerHTML='<div class="result">Mengirim magic link...</div>';
+  try{
+    const res=await fetch('/api/am-send?email='+encodeURIComponent(email));
+    const data=await res.json();
+    const ok=data.status===true||data.success===true||data.result?.success===true;
+    el.amResult.innerHTML='<div class="result '+(ok?'ok':'err')+'">'+escapeHtml(JSON.stringify(data,null,2))+'</div>';
+    toast(ok?'Magic link terkirim':'Respons diterima');
+  }catch(err){
+    el.amResult.innerHTML='<div class="result err">'+escapeHtml(err.message||'Error')+'</div>';
+    setError(err.message||'Gagal kirim');
+  }finally{el.btnSend.disabled=false;el.btnSend.textContent='Send magic link'}
+}
+async function verifyAccount(){
+  const email=(el.amEmail.value||'').trim();
+  const link=(el.amLink.value||'').trim();
+  if(!email){setError('Isi email dulu');return}
+  if(!link){setError('Isi verification link dulu');return}
+  setError('');el.btnVerify.disabled=true;el.btnVerify.textContent='Verifying...';
+  el.amResult.innerHTML='<div class="result">Memverifikasi account...</div>';
   try{
     const res=await fetch('/api/am-verif?email='+encodeURIComponent(email)+'&link='+encodeURIComponent(link));
     const data=await res.json();
-    const ok=data.status===true||data.success===true;
+    const ok=data.status===true||data.success===true||data.result?.success===true;
     el.amResult.innerHTML='<div class="result '+(ok?'ok':'err')+'">'+escapeHtml(JSON.stringify(data,null,2))+'</div>';
-    toast(ok?'Aktivasi berhasil':'Respons diterima');
+    toast(ok?'Verify berhasil':'Respons diterima');
   }catch(err){
     el.amResult.innerHTML='<div class="result err">'+escapeHtml(err.message||'Error')+'</div>';
-    setError(err.message||'Gagal aktivasi');
-  }finally{el.btnAm.disabled=false;el.btnAm.textContent='Aktivasi Premium'}
+    setError(err.message||'Gagal verify');
+  }finally{el.btnVerify.disabled=false;el.btnVerify.textContent='Verify account'}
 }
 updateEmailUI();renderSaved();switchPage(currentPage==='saved'?'saved':currentPage==='am'?'am':'generate');
-if(currentEmail){el.searchInput.value=currentEmail;if(el.amEmail)el.amEmail.value=currentEmail;autoSaveEmail(currentEmail);refreshInbox(true);startPolling()}
+if(currentEmail){el.searchInput.value=currentEmail;autoSaveEmail(currentEmail);refreshInbox(true);startPolling()}
