@@ -1,0 +1,10 @@
+{
+  "name": "am-tempmail",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Temporary email generator with inbox",
+  "scripts": {
+    "dev": "vercel dev",
+    "deploy": "vercel --prod"
+  }
+}
