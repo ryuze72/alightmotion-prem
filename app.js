@@ -142,10 +142,31 @@ function fillFromCurrent(){
   if(currentEmail&&el.amEmail)el.amEmail.value=currentEmail;
   toast('Email aktif diisi');
 }
+function findLatestMagic(){
+  if(!lastMessages||!lastMessages.length)return null;
+  for(const m of lastMessages){
+    const body=pickField(m,['body','text','content','message','html'],'');
+    const subject=pickField(m,['subject','title'],'');
+    const magic=pickMagic(extractLinks(String(body)+' '+String(subject)));
+    if(magic)return magic;
+  }
+  return null;
+}
 async function activateAM(){
   const email=(el.amEmail.value||'').trim();
-  const link=(el.amLink.value||'').trim();
-  if(!email||!link){setError('Email dan link wajib diisi');return}
+  let link=(el.amLink.value||'').trim();
+  if(!email){setError('Email wajib diisi');return}
+  if(!link){
+    const auto=findLatestMagic();
+    if(auto){
+      link=auto;
+      if(el.amLink)el.amLink.value=link;
+      toast('Link magic diisi otomatis dari inbox');
+    }else{
+      setError('Link kosong & tidak ada magic link di inbox');
+      return;
+    }
+  }
   setError('');el.btnAm.disabled=true;el.btnAm.textContent='Memproses...';
   el.amResult.innerHTML='<div class="result">Memanggil API...</div>';
   try{
