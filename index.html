@@ -2121,14 +2121,11 @@ textarea:focus{
    API AM PREMIUM
 ========================================================= */
 
-const COOKIE_API =
-  "https://am.yappi.my.id/api/cookie";
-
 const SEND_API =
-  "https://am.yappi.my.id/api/send";
+  "https://v2.api-varhad.my.id/tools/amprem/verif/email";
 
 const VERIFY_API =
-  "https://am.yappi.my.id/api/verify";
+  "https://v2.api-varhad.my.id/tools/amprem/verif/link";
 
 /* =========================================================
    TEMP MAIL API
@@ -2390,31 +2387,6 @@ async function copyText(text){
 }
 
 /* =========================================================
-   COOKIE
-========================================================= */
-
-async function getCookie(){
-
-  const response =
-    await fetch(
-      COOKIE_API,
-      {
-        method:"GET"
-      }
-    );
-
-  if(!response.ok){
-
-    throw new Error(
-      "Gagal mendapatkan session."
-    );
-
-  }
-
-  return await response.json();
-}
-
-/* =========================================================
    SEND MAGIC LINK
 ========================================================= */
 
@@ -2448,43 +2420,25 @@ sendBtn.addEventListener(
 
     try{
 
-      const cookieData =
-        await getCookie();
-
-      const cookie =
-        cookieData.cookie ||
-        cookieData.session ||
-        cookieData.data?.cookie ||
-        "";
+      const url =
+        SEND_API +
+        "?email=" +
+        encodeURIComponent(email);
 
       const response =
-        await fetch(
-          SEND_API,
-          {
-            method:"POST",
-
-            headers:{
-              "Content-Type":
-                "application/json"
-            },
-
-            body:JSON.stringify({
-              email,
-              cookie
-            })
-          }
-        );
+        await fetch(url);
 
       const data =
         await response
           .json()
           .catch(()=>({}));
 
-      if(!response.ok){
+      if(!response.ok || data.status === false){
 
         throw new Error(
           data.message ||
           data.error ||
+          data.msg ||
           "Request gagal."
         );
 
@@ -2568,44 +2522,27 @@ verifyBtn.addEventListener(
 
     try{
 
-      const cookieData =
-        await getCookie();
-
-      const cookie =
-        cookieData.cookie ||
-        cookieData.session ||
-        cookieData.data?.cookie ||
-        "";
+      const url =
+        VERIFY_API +
+        "?email=" +
+        encodeURIComponent(email) +
+        "&link=" +
+        encodeURIComponent(link);
 
       const response =
-        await fetch(
-          VERIFY_API,
-          {
-            method:"POST",
-
-            headers:{
-              "Content-Type":
-                "application/json"
-            },
-
-            body:JSON.stringify({
-              email,
-              link,
-              cookie
-            })
-          }
-        );
+        await fetch(url);
 
       const data =
         await response
           .json()
           .catch(()=>({}));
 
-      if(!response.ok){
+      if(!response.ok || data.status === false){
 
         throw new Error(
           data.message ||
           data.error ||
+          data.msg ||
           "Verification gagal."
         );
 
